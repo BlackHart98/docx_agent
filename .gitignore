@@ -3,5 +3,5 @@ env/
 .app_data/
 **__pycache__/
 test.py
-**.DS_Store
+**.DS_Store/
 .app_data/file2.xml

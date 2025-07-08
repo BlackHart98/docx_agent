@@ -1,0 +1,192 @@
+import json
+import os
+import sys
+import typing as t
+from docx import Document
+import zipfile
+import logging
+from difflib import *
+from lxml import etree
+import subprocess
+import xmlformatter
+
+DOCX_SCHEMA = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+
+class DocxParser:
+    def _get_all_comments(
+        self,
+        docx_zip: zipfile.ZipFile, 
+        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+    ) -> t.List[t.Dict[str, t.Any]]:
+        if 'word/comments.xml' not in [item.filename for item in docx_zip.filelist]: 
+            return []
+        else:
+            comments_xml = docx_zip.read('word/comments.xml')
+            et = etree.XML(comments_xml)
+            comments = et.xpath('//w:comment',namespaces=oo_xmlns)
+            result: t.List[t.Dict[str, t.Any]] = []
+            for c in comments:
+                comment = c.xpath('string(.)',namespaces=oo_xmlns)
+                comment_id = c.xpath('@w:id',namespaces=oo_xmlns)[0]
+                comment_author = c.xpath('@w:author',namespaces=oo_xmlns)[0]
+                comment_date = c.xpath('@w:date',namespaces=oo_xmlns)[0]
+                result += [{
+                    "comment" : comment,
+                    "comment_id" : comment_id,
+                    "comment_author" : comment_author,
+                    "comment_date" : comment_date,
+                }]
+            return result
+    
+    
+    def _get_paragraph_comments(
+        self,
+        paragraph: t.Any, 
+        comments_dict: t.Dict[str, t.Any], 
+        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+    ) -> t.Any:
+        result = []
+        for run in paragraph.runs:
+            comment_reference = run._r.xpath("./w:commentReference")
+            
+            if comment_reference:
+                comment_id = comment_reference[0].xpath('@w:id',namespaces=oo_xmlns)[0]
+                comment = comments_dict[comment_id]
+                result.append(comment)
+        return result
+    
+    
+    # TODO: revisit this function
+    def _get_comment_positions(
+        self, 
+        document_xml: t.Any, 
+        para_idx: int, 
+        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+    ) -> t.List[t.Dict[str, t.Any]]:
+        tree = etree.fromstring(document_xml)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=oo_xmlns)
+        paragraph = paragraphs[para_idx]
+        text_accum = ""
+        comment_positions = []
+        inside_comment = False
+        comment_id = None
+        start_offset = None
+
+        for elem in paragraph.iter():
+            if elem.tag.endswith('commentRangeStart'):
+                inside_comment = True
+                comment_id = elem.get(f'{{{oo_xmlns["w"]}}}id')
+                start_offset = len(text_accum)
+            elif elem.tag.endswith('commentRangeEnd') and inside_comment:
+                end_offset = len(text_accum)
+                comment_positions.append({
+                    'comment_id': comment_id,
+                    'start': start_offset,
+                    'end': end_offset
+                })
+                inside_comment = False
+                comment_id = None
+                start_offset = None
+            elif elem.tag.endswith('t'):
+                text_accum += elem.text or ""
+            else:
+                continue
+        return comment_positions
+    
+    
+    def _get_track_changes(
+        self, 
+        document_xml: t.Any, 
+        para_idx: int, 
+        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+    ) -> t.List[t.Dict[str, t.Any]]:
+        tree = etree.fromstring(document_xml)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=oo_xmlns)
+        paragraph = paragraphs[para_idx]
+        para_text = ""
+        changes = []
+        cursor = 0
+        
+        def _extract_text(elem):
+            return "".join(elem.xpath('.//w:t/text()', namespaces=oo_xmlns))
+        
+        for child in paragraph:
+            if child.tag.endswith("r"):  # normal run
+                text = _extract_text(child)
+                para_text += text
+                cursor += len(text)
+            elif child.tag.endswith("ins") or child.tag.endswith("del"):
+                change_type = "insertion" if child.tag.endswith("ins") else "deletion"
+
+                author = child.get(f'{{{oo_xmlns["w"]}}}author')
+                date = child.get(f'{{{oo_xmlns["w"]}}}date')
+                change_text = _extract_text(child)
+
+                start = cursor
+                end = cursor + len(change_text)
+
+                changes.append({
+                    "type": change_type,
+                    "author": author,
+                    "date": date,
+                    "text": change_text,
+                    "start": start,
+                    "end": end
+                })
+
+                para_text += change_text  # include in visible text
+                cursor += len(change_text)
+                
+        return changes
+
+
+    def _get_paragraphs_with_comments(
+        self,
+        document_file_path: str, 
+        docx_zip: zipfile.ZipFile,
+        comments: t.List[t.Dict[str, t.Any]], 
+        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+    ) -> t.List[t.Dict[str, t.Any]]:
+        document_xml = docx_zip.read('word/document.xml')
+        document = Document(document_file_path)
+        comments_dict = {item["comment_id"] : item for item in comments}
+        revisions_to_paragraph = []
+        for idx, paragraph in enumerate(document.paragraphs):
+            if comments_dict:
+                comments = self._get_paragraph_comments(paragraph, comments_dict)
+                if comments:
+                    comment_pos = self._get_comment_positions(document_xml, idx)
+                    revisions_to_paragraph.append(
+                        {
+                            "paragraph" : paragraph.text,
+                            "comment_pos": comment_pos,
+                            "paragraph_index" : idx,
+                            "comments": comments,
+                            "track_changes": self._get_track_changes(document_xml, idx),
+                        })
+                else:
+                    revisions_to_paragraph.append(
+                        {
+                            "paragraph" : paragraph.text,
+                            "paragraph_index" : idx,
+                            "comment_pos": [],
+                            "comments": [],
+                            "track_changes": self._get_track_changes(document_xml, idx),
+                        })
+            else:
+                if len(paragraph.text) != 0:
+                    revisions_to_paragraph.append(
+                        {
+                            "paragraph" : paragraph.text,
+                            "paragraph_index" : idx,
+                            "comment_pos": [],
+                            "comments": [],
+                            "track_changes": self._get_track_changes(document_xml, idx),
+                        })
+        return revisions_to_paragraph
+    
+    
+    def get_paragraphs_with_comments(self, sample: str) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
+        docx_zip = zipfile.ZipFile(sample)
+        comments = self._get_all_comments(docx_zip)
+        return self._get_paragraphs_with_comments(sample, docx_zip, comments)

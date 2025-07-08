@@ -23,7 +23,6 @@ LIST_OF_SAMPLE_DOCX = [
 
 def main(argv: t.List[str]) -> int:
     sample: str = "examples/my_sample_with_comments_2.docx"
-    
     logging.info(json.dumps(DocxParser().get_paragraphs_with_comments(sample)))
     return 0
 

@@ -2,14 +2,14 @@ import json
 import os
 import sys
 import typing as t
-from docx import Document
+# from docx import Document
 import zipfile
 import logging
 from difflib import *
 from lxml import etree
 import subprocess
 import xmlformatter
-from utils import get_paragragh_difflist, AppConfig
+from utils import get_paragragh_difflist, extract_text_content, AppConfig, EditCategory
 
 
 import hashlib
@@ -45,14 +45,11 @@ class DocxParser:
         self,
         paragraph: t.Any, 
         comments_dict: t.Dict[str, t.Any], 
-        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.Any:
         result = []
-        for run in paragraph.runs:
-            comment_reference = run._r.xpath("./w:commentReference")
-            
-            if comment_reference:
-                comment_id = comment_reference[0].xpath('@w:id',namespaces=oo_xmlns)[0]
+        for item in paragraph.iter():
+            if item.tag.endswith('commentReference'):
+                comment_id = item.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}id')
                 comment = comments_dict[comment_id]
                 result.append(comment)
         return result
@@ -66,7 +63,7 @@ class DocxParser:
         oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         tree = etree.fromstring(document_xml)
-        paragraphs = tree.findall('.//w:body//w:p', namespaces=oo_xmlns)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=AppConfig.DOCX_SCHEMA)
         paragraph = paragraphs[para_idx]
         text_accum = ""
         comment_positions = []
@@ -100,28 +97,23 @@ class DocxParser:
         self, 
         document_xml: t.Any, 
         para_idx: int, 
-        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         tree = etree.fromstring(document_xml)
-        paragraphs = tree.findall('.//w:body//w:p', namespaces=oo_xmlns)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=AppConfig.DOCX_SCHEMA)
         paragraph = paragraphs[para_idx]
         para_text = ""
         changes = []
         cursor = 0
-        
-        def _extract_text(elem, tag_suffix):
-            return "".join(elem.xpath(f'.//w:{tag_suffix}/text()', namespaces=oo_xmlns))
-        
         for child in paragraph:
             if child.tag.endswith("r"):  # normal run
-                text = _extract_text(child, "t")
+                text = extract_text_content(child, "t")
                 para_text += text
                 cursor += len(text)
             elif child.tag.endswith("ins"):
-                change_type = "insertion"
-                author = child.get(f'{{{oo_xmlns["w"]}}}author')
-                date = child.get(f'{{{oo_xmlns["w"]}}}date')
-                change_text = _extract_text(child, "t")
+                change_type = EditCategory.INSERTION
+                author = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}author')
+                date = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}date')
+                change_text = extract_text_content(child, "t")
 
                 start = cursor
                 end = cursor + len(change_text)
@@ -138,10 +130,10 @@ class DocxParser:
                 para_text += change_text
                 cursor += len(change_text)
             elif child.tag.endswith("del"):
-                change_type = "deletion"
-                author = child.get(f'{{{oo_xmlns["w"]}}}author')
-                date = child.get(f'{{{oo_xmlns["w"]}}}date')
-                change_text = _extract_text(child, "delText")
+                change_type = EditCategory.DELETION
+                author = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}author')
+                date = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}date')
+                change_text = extract_text_content(child, "delText")
 
                 start = cursor
                 end = cursor + len(change_text)
@@ -164,55 +156,44 @@ class DocxParser:
     # TODO: revisit this function
     def _get_paragraphs_with_comments(
         self,
-        document_file_path: str, 
+        # document_file_path: str, 
         docx_zip: zipfile.ZipFile,
         comments: t.List[t.Dict[str, t.Any]], 
-        # oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         document_xml = docx_zip.read('word/document.xml')
-        document = Document(document_file_path)
+        tree = etree.fromstring(document_xml)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=AppConfig.DOCX_SCHEMA)
         comments_dict = {item["comment_id"] : item for item in comments}
         revisions_to_paragraph = []
-        for idx, paragraph in enumerate(document.paragraphs):
+        for idx, paragraph in enumerate(paragraphs):
             track_changes: t.List[t.Dict[str, t.Any]] = self._get_track_changes(document_xml, idx)
+            paragraph_text = extract_text_content(paragraph, "t", AppConfig.DOCX_SCHEMA)
             if comments_dict:
                 comments = self._get_paragraph_comments(paragraph, comments_dict)
-                if comments:
-                    comment_pos = self._get_comment_positions(document_xml, idx)
-                    revisions_to_paragraph.append(
-                        {
-                            "paragraph" : paragraph.text,
-                            "comment_pos": comment_pos,
-                            "paragraph_index" : idx,
-                            "comments": comments,
-                            "track_changes": track_changes,
-                        })
-                else:
-                    revisions_to_paragraph.append(
-                        {
-                            "paragraph" : paragraph.text,
-                            "paragraph_index" : idx,
-                            "comment_pos": [],
-                            "comments": [],
-                            "track_changes": track_changes,
-                        })
+                comment_pos = self._get_comment_positions(document_xml, idx)
+                revisions_to_paragraph += [{
+                        "paragraph" : paragraph_text,
+                        "paragraph_index" : idx,
+                        "comment_pos": comment_pos,
+                        "comments": comments,
+                        "track_changes": track_changes,
+                    }]
             else:
                 if len(paragraph.text) != 0:
-                    revisions_to_paragraph.append(
-                        {
-                            "paragraph" : paragraph.text,
+                    revisions_to_paragraph += [{
+                            "paragraph" : paragraph_text,
                             "paragraph_index" : idx,
                             "comment_pos": [],
                             "comments": [],
                             "track_changes": track_changes,
-                        })
+                        }]
         return revisions_to_paragraph
     
     
     def get_paragraphs_with_comments(self, sample: str) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
         docx_zip = zipfile.ZipFile(sample)
         comments = self._get_all_comments(docx_zip)
-        return self._get_paragraphs_with_comments(sample, docx_zip, comments)
+        return self._get_paragraphs_with_comments(docx_zip, comments)
 
     
     def get_clause_revision_dict(self, contract_meta: t.List[t.Dict[str, t.Any]]) -> t.List[t.Dict[str, t.Any]]:
@@ -220,8 +201,8 @@ class DocxParser:
         for item in contract_meta:
             if item["paragraph"] != "" and len(item["track_changes"]) != 0:
                 _, chunk_list = get_paragragh_difflist(item)
-                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != "insert"])
-                paragraph = "".join([x[0] for x in chunk_list if x[1] != "deletion"])
+                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.INSERTION])
+                paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.DELETION])
                 result += [{
                     "paragraph" : paragraph,
                     "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
@@ -229,8 +210,8 @@ class DocxParser:
                 }]
             elif len(item["track_changes"]) != 0:
                 _, chunk_list = get_paragragh_difflist(item)
-                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != "insert"])
-                paragraph = "".join([x[0] for x in chunk_list if x[1] != "deletion"])
+                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.INSERTION])
+                paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.DELETION])
                 result += [{
                     "paragraph" : paragraph,
                     "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",

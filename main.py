@@ -11,8 +11,11 @@ import subprocess
 import xmlformatter
 from docx.oxml.ns import qn
 from doc_parser import DocxParser
+from utils import get_paragragh_difflist
 
+import hashlib # I don't think I'd keep this here too long
 
+# for quick testing
 LIST_OF_SAMPLE_DOCX = [
     "examples/file-sample_1MB.docx",
     "examples/my_sample_with_comments_2.docx",
@@ -21,11 +24,41 @@ LIST_OF_SAMPLE_DOCX = [
     "examples/sample-files.com-basic-text.docx"
 ]
 
+CLAUSE_PREFIX = "contract_clause"
+
+
+class DummyModelContract:
+    # first draft
+    def create_fake_clause_dict(self, contract_meta: t.List[t.Dict[str, t.Any]]) -> t.List[t.Dict[str, t.Any]]:
+        result: t.List[t.Dict[str, t.Any]] = []
+        for item in contract_meta:
+            if item["paragraph"] != "" and len(item["track_changes"]) != 0:
+                _, chunk_list = get_paragragh_difflist(item)
+                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != "insert"])
+                result += [{
+                    "paragraph" : origin_paragraph,
+                    "uuid" : f"{CLAUSE_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                    "paragraph_index" : item["paragraph_index"],
+                }]
+            elif item["paragraph"] != "":
+                result += [{
+                    "paragraph" : item["paragraph"],
+                    "uuid" : f"{CLAUSE_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
+                    "paragraph_index" : item["paragraph_index"],
+                }]
+            else:
+                continue
+        return result
 
 
 def main(argv: t.List[str]) -> int:
     sample: str = "examples/my_sample_with_comments_2.docx"
-    logging.info(json.dumps(DocxParser().get_paragraphs_with_comments(sample)))
+    contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = DocxParser().get_paragraphs_with_comments(sample)
+    logging.info(json.dumps(contract_meta))
+    if contract_meta:
+        if len(contract_meta) != 0:
+            model_contract_dict_v1: DummyModelContract = DummyModelContract().create_fake_clause_dict(contract_meta)
+            logging.info(f"help me help me: {json.dumps(model_contract_dict_v1)}")
     return 0
 
 

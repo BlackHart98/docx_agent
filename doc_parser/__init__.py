@@ -93,7 +93,7 @@ class DocxParser:
                 continue
         return comment_positions
     
-    
+    # TODO: Revisit this function
     def _get_track_changes(
         self, 
         document_xml: t.Any, 
@@ -211,3 +211,5 @@ class DocxParser:
         docx_zip = zipfile.ZipFile(sample)
         comments = self._get_all_comments(docx_zip)
         return self._get_paragraphs_with_comments(sample, docx_zip, comments)
+
+        

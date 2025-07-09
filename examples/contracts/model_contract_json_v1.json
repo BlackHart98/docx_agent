@@ -1,0 +1,27 @@
+[
+	{
+		"paragraph": "My Sample comments holder",
+		"uuid": "contract_clause:faaffd517e422bf90d527e1ca3298654",
+		"paragraph_index": 0
+	},
+	{
+		"paragraph": "Another Sample comment holder 2",
+		"uuid": "contract_clause:8dccca2a21cb71cec68550f8320eba3b",
+		"paragraph_index": 4
+	},
+	{
+		"paragraph": "Paragraph without ",
+		"uuid": "contract_clause:f3edb02a6d08cf2b8c1423215d38f0d3",
+		"paragraph_index": 6
+	},
+	{
+		"paragraph": "Paragraph without comment1 and comment2",
+		"uuid": "contract_clause:f082021fba4ae00e7e26c86f6b6c1555",
+		"paragraph_index": 9
+	},
+	{
+		"paragraph": "This is a track change",
+		"uuid": "contract_clause:d41d8cd98f00b204e9800998ecf8427e",
+		"paragraph_index": 11
+	}
+]

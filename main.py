@@ -51,14 +51,16 @@ class DummyModelContract:
 
 def main(argv: t.List[str]) -> int:
     sample: str = "examples/my_sample_with_comments_2.docx"
-    contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = DocxParser().get_paragraphs_with_comments(sample)
+    docx_parser: DocxParser = DocxParser()
+    dummy_model_contract: DummyModelContract = DummyModelContract()
+    contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = docx_parser.get_paragraphs_with_comments(sample)
     logging.info(json.dumps(contract_meta))
     if contract_meta:
         if len(contract_meta) != 0:
-            model_contract_dict_v1: DummyModelContract = DummyModelContract().create_fake_clause_dict(contract_meta)
+            model_contract_dict_v1: DummyModelContract = dummy_model_contract.create_fake_clause_dict(contract_meta)
             logging.info(f"{json.dumps(model_contract_dict_v1)}")
             
-            logging.info(f"DummyModelContract {json.dumps(DocxParser().get_clause_revision_dict(contract_meta))}")
+            logging.info(f"DummyModelContract {json.dumps(docx_parser.get_clause_revision_dict(contract_meta))}")
     return 0
 
 

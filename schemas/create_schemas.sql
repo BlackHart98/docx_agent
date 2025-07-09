@@ -1,3 +1,5 @@
+drop schema if exists ai_dox_agent; 
+
 create table contract_versions(
 	contract_version_id VARCHAR,
 	contract_file_path VARCHAR,

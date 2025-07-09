@@ -107,20 +107,39 @@ class DocxParser:
         changes = []
         cursor = 0
         
-        def _extract_text(elem):
-            return "".join(elem.xpath('.//w:t/text()', namespaces=oo_xmlns))
+        def _extract_text(elem, tag_suffix):
+            return "".join(elem.xpath(f'.//w:{tag_suffix}/text()', namespaces=oo_xmlns))
         
         for child in paragraph:
             if child.tag.endswith("r"):  # normal run
-                text = _extract_text(child)
+                text = _extract_text(child, "t")
                 para_text += text
                 cursor += len(text)
-            elif child.tag.endswith("ins") or child.tag.endswith("del"):
-                change_type = "insertion" if child.tag.endswith("ins") else "deletion"
-
+            elif child.tag.endswith("ins"):
+                change_type = "insertion"
                 author = child.get(f'{{{oo_xmlns["w"]}}}author')
                 date = child.get(f'{{{oo_xmlns["w"]}}}date')
-                change_text = _extract_text(child)
+                change_text = _extract_text(child, "t")
+
+                start = cursor
+                end = cursor + len(change_text)
+
+                changes.append({
+                    "type": change_type,
+                    "author": author,
+                    "date": date,
+                    "text": change_text,
+                    "start": start,
+                    "end": end
+                })
+
+                para_text += change_text
+                cursor += len(change_text)
+            elif child.tag.endswith("del"):
+                change_type = "deletion"
+                author = child.get(f'{{{oo_xmlns["w"]}}}author')
+                date = child.get(f'{{{oo_xmlns["w"]}}}date')
+                change_text = _extract_text(child, "delText")
 
                 start = cursor
                 end = cursor + len(change_text)
@@ -136,22 +155,24 @@ class DocxParser:
 
                 para_text += change_text  # include in visible text
                 cursor += len(change_text)
-                
+            else:
+                continue   
         return changes
 
-
+    # TODO: revisit this function
     def _get_paragraphs_with_comments(
         self,
         document_file_path: str, 
         docx_zip: zipfile.ZipFile,
         comments: t.List[t.Dict[str, t.Any]], 
-        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+        # oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         document_xml = docx_zip.read('word/document.xml')
         document = Document(document_file_path)
         comments_dict = {item["comment_id"] : item for item in comments}
         revisions_to_paragraph = []
         for idx, paragraph in enumerate(document.paragraphs):
+            track_changes: t.List[t.Dict[str, t.Any]] = self._get_track_changes(document_xml, idx)
             if comments_dict:
                 comments = self._get_paragraph_comments(paragraph, comments_dict)
                 if comments:
@@ -162,7 +183,7 @@ class DocxParser:
                             "comment_pos": comment_pos,
                             "paragraph_index" : idx,
                             "comments": comments,
-                            "track_changes": self._get_track_changes(document_xml, idx),
+                            "track_changes": track_changes,
                         })
                 else:
                     revisions_to_paragraph.append(
@@ -171,7 +192,7 @@ class DocxParser:
                             "paragraph_index" : idx,
                             "comment_pos": [],
                             "comments": [],
-                            "track_changes": self._get_track_changes(document_xml, idx),
+                            "track_changes": track_changes,
                         })
             else:
                 if len(paragraph.text) != 0:
@@ -181,7 +202,7 @@ class DocxParser:
                             "paragraph_index" : idx,
                             "comment_pos": [],
                             "comments": [],
-                            "track_changes": self._get_track_changes(document_xml, idx),
+                            "track_changes": track_changes,
                         })
         return revisions_to_paragraph
     

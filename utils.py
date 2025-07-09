@@ -1,9 +1,15 @@
 import typing as t
 import logging
+from dataclasses import dataclass
+
+@dataclass
+class AppConfig: # I can't think of a better name
+    CLAUSE_HASH_PREFIX = "contract_clause"
+    DOCX_SCHEMA = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
 
 
 # this is a simplisitic diffing to help me regenerate the original text
-def get_paragragh_difflist( paragraph_meta: t.Dict[str, t.Any]) -> t.Optional[t.Tuple[int, t.List[t.Tuple[str, str]]]]:
+def get_paragragh_difflist(paragraph_meta: t.Dict[str, t.Any]) -> t.Optional[t.Tuple[int, t.List[t.Tuple[str, str]]]]:
     if len(paragraph_meta["track_changes"]) != 0:
         logging.info(paragraph_meta["track_changes"])
         sorted_track_change_list: t.List[t.Tuple[int, int, str, str]] = sorted([

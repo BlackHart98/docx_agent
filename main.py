@@ -11,7 +11,7 @@ import subprocess
 import xmlformatter
 from docx.oxml.ns import qn
 from doc_parser import DocxParser
-from utils import get_paragragh_difflist
+from utils import get_paragragh_difflist, AppConfig
 
 import hashlib # I don't think I'd keep this here too long
 
@@ -24,8 +24,6 @@ LIST_OF_SAMPLE_DOCX = [
     "examples/sample-files.com-basic-text.docx"
 ]
 
-CLAUSE_PREFIX = "contract_clause"
-
 
 class DummyModelContract:
     # first draft
@@ -37,13 +35,13 @@ class DummyModelContract:
                 origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != "insert"])
                 result += [{
                     "paragraph" : origin_paragraph,
-                    "uuid" : f"{CLAUSE_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]
             elif item["paragraph"] != "":
                 result += [{
                     "paragraph" : item["paragraph"],
-                    "uuid" : f"{CLAUSE_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
+                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]
             else:
@@ -58,7 +56,9 @@ def main(argv: t.List[str]) -> int:
     if contract_meta:
         if len(contract_meta) != 0:
             model_contract_dict_v1: DummyModelContract = DummyModelContract().create_fake_clause_dict(contract_meta)
-            logging.info(f"help me help me: {json.dumps(model_contract_dict_v1)}")
+            logging.info(f"{json.dumps(model_contract_dict_v1)}")
+            
+            logging.info(f"DummyModelContract {json.dumps(DocxParser().get_clause_revision_dict(contract_meta))}")
     return 0
 
 

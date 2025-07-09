@@ -9,14 +9,16 @@ from difflib import *
 from lxml import etree
 import subprocess
 import xmlformatter
+from utils import get_paragragh_difflist, AppConfig
 
-DOCX_SCHEMA = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+
+import hashlib
 
 class DocxParser:
     def _get_all_comments(
         self,
         docx_zip: zipfile.ZipFile, 
-        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         if 'word/comments.xml' not in [item.filename for item in docx_zip.filelist]: 
             return []
@@ -43,7 +45,7 @@ class DocxParser:
         self,
         paragraph: t.Any, 
         comments_dict: t.Dict[str, t.Any], 
-        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.Any:
         result = []
         for run in paragraph.runs:
@@ -61,7 +63,7 @@ class DocxParser:
         self, 
         document_xml: t.Any, 
         para_idx: int, 
-        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         tree = etree.fromstring(document_xml)
         paragraphs = tree.findall('.//w:body//w:p', namespaces=oo_xmlns)
@@ -98,7 +100,7 @@ class DocxParser:
         self, 
         document_xml: t.Any, 
         para_idx: int, 
-        oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         tree = etree.fromstring(document_xml)
         paragraphs = tree.findall('.//w:body//w:p', namespaces=oo_xmlns)
@@ -165,7 +167,7 @@ class DocxParser:
         document_file_path: str, 
         docx_zip: zipfile.ZipFile,
         comments: t.List[t.Dict[str, t.Any]], 
-        # oo_xmlns: t.Dict[str, str]=DOCX_SCHEMA
+        # oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         document_xml = docx_zip.read('word/document.xml')
         document = Document(document_file_path)
@@ -212,4 +214,32 @@ class DocxParser:
         comments = self._get_all_comments(docx_zip)
         return self._get_paragraphs_with_comments(sample, docx_zip, comments)
 
-        
+    
+    def get_clause_revision_dict(self, contract_meta: t.List[t.Dict[str, t.Any]]) -> t.List[t.Dict[str, t.Any]]:
+        result = []
+        for item in contract_meta:
+            if item["paragraph"] != "" and len(item["track_changes"]) != 0:
+                _, chunk_list = get_paragragh_difflist(item)
+                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != "insert"])
+                paragraph = "".join([x[0] for x in chunk_list if x[1] != "deletion"])
+                result += [{
+                    "paragraph" : paragraph,
+                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                    "paragraph_index" : item["paragraph_index"],
+                }]
+            elif len(item["track_changes"]) != 0:
+                _, chunk_list = get_paragragh_difflist(item)
+                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != "insert"])
+                paragraph = "".join([x[0] for x in chunk_list if x[1] != "deletion"])
+                result += [{
+                    "paragraph" : paragraph,
+                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                    "paragraph_index" : item["paragraph_index"],
+                }]
+            elif item["paragraph"] != "":
+                result += [{
+                    "paragraph" : item["paragraph"],
+                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
+                    "paragraph_index" : item["paragraph_index"],
+                }]
+        return result

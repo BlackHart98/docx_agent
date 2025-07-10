@@ -230,7 +230,7 @@ def get_asym_sleep_time(attempt, base_delay, lag_max) -> float:
     return (base_delay * (2 ** (attempt - 1))) + lag_rnd
 
 
-def clean_up_json(dirty_json_response: str) -> t.Optional[str]:
+def clean_up_json(dirty_json_response: str, revision_schema: t.Set[str]) -> t.Optional[str]:
     removed_ticks = dirty_json_response.strip("`")
     json_prefix: str = "json"
     result = removed_ticks
@@ -238,6 +238,12 @@ def clean_up_json(dirty_json_response: str) -> t.Optional[str]:
         result = result.strip(x)
     try:
         result_dict = json.loads(result)
-        return result_dict
+        if type(result_dict) == type(dict()):
+            if len(revision_schema) != len(result_dict): return None
+            for item in result_dict:
+                if item not in revision_schema:
+                    return None
+            return result_dict
     except:
         return None
+    return None

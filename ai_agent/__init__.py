@@ -33,11 +33,15 @@ class DocxAIAgent:
         self._api_key = api_key
         self._model_name = model_name
         self._system_role = ("system", role)
-        if model_name == AIModel.MISTRAL_LARGE_LATEST:
-            self._llm = ChatMistralAI(
-                model=AIModel.MISTRAL_LARGE_LATEST, 
-                mistral_api_key=self._api_key, 
-                temperature=0,)
+        match model_name:
+            case AIModel.MISTRAL_LARGE_LATEST:
+                self._llm = ChatMistralAI(
+                    model=AIModel.MISTRAL_LARGE_LATEST, 
+                    mistral_api_key=self._api_key, 
+                    temperature=0,)
+            case _:
+                logging.error("Model {model_name} not unsopported")
+                raise
         
 
 

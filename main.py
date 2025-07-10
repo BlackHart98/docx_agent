@@ -65,7 +65,7 @@ def main(argv: t.List[str]) -> int:
             
             for idx in paragraph_to_body:
                 logging.info(f"paragraph: {idx} ::::::::::::::::::::::")
-                logging.info(paragraph_to_body[idx])
+                # logging.info(paragraph_to_body[idx])
                 logging.info(ai_agent.get_revision_analysis(idx, paragraph_to_body[idx]))
                 logging.info(f"+++++++++++++++++++++++++++++++++++++++")
     return 0

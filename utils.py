@@ -1,14 +1,16 @@
+from enum import Enum
 import typing as t
 import logging
 from operator import itemgetter
 from dataclasses import dataclass
+from langchain_mistralai import ChatMistralAI
 
 class AppConfig: # I can't think of a better name
     CLAUSE_HASH_PREFIX = "contract_clause"
     DOCX_SCHEMA = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
 
 
-class EditCategory:
+class EditCategory(Enum):
     INSERTION = "insertion"
     DELETION = "deletion"
     ORIGIN = "origin"
@@ -49,7 +51,25 @@ content: {}
 author: {}
 ___
 """
-    AI_ROLE_TEMPLATE: str = """"""
+    AI_ROLE_TEMPLATE: str = """
+You are a legal analyst reviewing a proposed change to a contract clause.
+The vendor has proposed the following revision:
+
+Your task is to analyze the revision and return a structured JSON object with the following fields:
+
+1. analysis_summary – a clear, one-paragraph summary of what the vendor is attempting to achieve with this revision. Explain in plain legal English.
+2. risk_assessment – classify the level of risk this change introduces to the client, using one of:
+    - L for Low Risk
+    - M for Medium Risk
+    - H for High Risk
+3. recommended_action – based on the risk and intent, recommend a course of action:
+    - A for Accept the change
+    - R for Reject the change outright
+    - P for Propose a modification or counter-offer
+4. suggested_response – if the recommended action is R (Reject) or P (Propose Modification), draft a short, professional response explaining why the revision is unacceptable as written and, if applicable, suggesting alternative language. Use clear and formal legal language.
+
+If the recommended action is A (Accept), simply set suggested_response to an empty string "".
+"""
 
 
 # list of supported ai models, I just need it form enums lol

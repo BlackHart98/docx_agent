@@ -9,7 +9,7 @@ from difflib import *
 from lxml import etree
 import subprocess
 import xmlformatter
-from utils import get_paragragh_difflist, extract_text_content, AppConfig, EditCategory
+from utils import get_paragragh_difflist, extract_text_content, AppConfig, EditCategory, get_origin_paragraph
 
 
 import hashlib
@@ -179,7 +179,7 @@ class DocxParser:
                         "track_changes": track_changes,
                     }]
             else:
-                if len(paragraph.text) != 0:
+                if len(extract_text_content(paragraph, "t")) != 0:
                     revisions_to_paragraph += [{
                             "paragraph" : paragraph_text,
                             "paragraph_index" : idx,
@@ -200,20 +200,16 @@ class DocxParser:
         result = []
         for item in contract_meta:
             if item["paragraph"] != "" and len(item["track_changes"]) != 0:
-                _, chunk_list = get_paragragh_difflist(item)
-                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.INSERTION])
-                paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.DELETION])
+                _, origin_paragraph = get_origin_paragraph(item)
                 result += [{
-                    "paragraph" : paragraph,
+                    "paragraph" : item["paragraph"],
                     "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]
             elif len(item["track_changes"]) != 0:
-                _, chunk_list = get_paragragh_difflist(item)
-                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.INSERTION])
-                paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.DELETION])
+                _, origin_paragraph = get_origin_paragraph(item)
                 result += [{
-                    "paragraph" : paragraph,
+                    "paragraph" : item["paragraph"],
                     "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]

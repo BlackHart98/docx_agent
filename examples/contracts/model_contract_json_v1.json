@@ -1,22 +1,797 @@
 [
 	{
-	  "paragraph": "My Sample comments holder",
-	  "uuid": "contract_clause:faaffd517e422bf90d527e1ca3298654",
-	  "paragraph_index": 0
+		"paragraph": "SERVICE CONTRACTContract No. _______",
+		"uuid": "contract_clause:4e1c04128e799dc43b99ee542727c9de",
+		"paragraph_index": 0
 	},
 	{
-	  "paragraph": "Another Sample comment holder 2",
-	  "uuid": "contract_clause:8dccca2a21cb71cec68550f8320eba3b",
-	  "paragraph_index": 4
+		"paragraph": "THIS SERVICE CONTRACT entered into as of __________ by and between MERCY CORPS, a State of Washington, U.S.A. nonprofit corporation having its principal office in Portland, Oregon, U.S.A. (\u201cMercy Corps\u201d) and _____________________________ (\u201cContractor\u201d) is as follows:",
+		"uuid": "contract_clause:c967a5b75d9de44d2f6a6ea707c30b14",
+		"paragraph_index": 1
 	},
 	{
-	  "paragraph": "Paragraph without comment",
-	  "uuid": "contract_clause:f3edb02a6d08cf2b8c1423215d38f0d3",
-	  "paragraph_index": 6
+		"paragraph": "Defined Terms.   Each of the following terms has the meaning given to such term on Schedule I attached hereto:  Authorized Representative, Payment Terms, Services and SOW.  \u201cContract\u201d means this Service Contract as amended, modified or supplemented from time to time taken together with its Schedules.  Additional terms may be defined throughout this Contract.",
+		"uuid": "contract_clause:c28b40166d02f9c17cdef0a1c18d740c",
+		"paragraph_index": 2
 	},
 	{
-	  "paragraph": "Paragraph without comment1 and comment2",
-	  "uuid": "contract_clause:f082021fba4ae00e7e26c86f6b6c1555",
-	  "paragraph_index": 9
+		"paragraph": "Delivery of Services.   ",
+		"uuid": "contract_clause:d605db3a4a226dfbf08c6d6a3b746f88",
+		"paragraph_index": 3
+	},
+	{
+		"paragraph": "Contractor will perform the Services, and Mercy Corps will pay for the Services, in accordance with the terms and conditions and within the Performance Period set forth in this Contract and the Statement of Services.  ",
+		"uuid": "contract_clause:9ba6ce746f77b7635e782811daa68fb4",
+		"paragraph_index": 4
+	},
+	{
+		"paragraph": "Contractor will perform all Services through the services of Contractor\u2019s employees.  Contractor will not delegate or subcontract any Services to be provided to Mercy Corps without Mercy Corps\u2019 prior written consent.   Contractor agrees that including the specific individuals named (if any) as Key Personnel in Schedule I is a material part of the bargain.  Contractor will not change the Key Personnel without prior notice and an amendment to this Contract specifying the change.  Mercy Corps may withhold its consent to substitute personnel using its sole discretion.",
+		"uuid": "contract_clause:27f73ba86a72cd3fd6e84382d9c9710b",
+		"paragraph_index": 5
+	},
+	{
+		"paragraph": "Compliance with SOW and Changes to the SOW. Services will be provided strictly in accordance with the SOW.  No deviation, substitution or change is permitted without Mercy Corps\u2019 prior written consent; provided that Mercy Corps may terminate, suspend, increase or decrease the scope of Contractor's performance under the SOW by written notice to Contractor specifying the changes.  Unless mutually agreed, change to the SOW by Mercy Corps does not apply to change Services timely and fully delivered and performed before the date of the change.  If any change causes an increase or decrease in the cost of, or the time required for, Contractor's performance, an equitable adjustment may be made in the SOW or Payment Terms or both, if such adjustment is set forth in an amendment signed by Mercy Corps\u2019 and Contractor\u2019s Authorized Representative. ",
+		"uuid": "contract_clause:1b6ba708e82c43bb73b46730da40c009",
+		"paragraph_index": 6
+	},
+	{
+		"paragraph": "Invoicing and Payment.   ",
+		"uuid": "contract_clause:37c7d83fbbb345a20363c0d35b965e13",
+		"paragraph_index": 7
+	},
+	{
+		"paragraph": "Contractor will submit invoices to Mercy Corps in accordance with the invoicing schedule and invoicing delivery terms set forth in the Statement of Services (Schedule I). Final invoices must be submitted within 60 days of the end date of the Contract. Contractor recognizes that in many cases Mercy Corps\u2019 donor will not reimburse Mercy Corps for invoices submitted beyond 60 days after the termination of a contract and therefore Mercy Corps will have no obligation to pay any portion of invoices received more than 60 days after the end date of the Contract. Each invoice will include (i)\u00a0the Contract Number; (ii)\u00a0Contractor\u2019s name and address; (iii)\u00a0a description of the Services performed, (iv)\u00a0the dates such Services were performed, (v)\u00a0a pricing calculation based on the payment terms, (vi)\u00a0properly reimbursable expenses (if any) incurred along with receipts for such expenses (if applicable) for all individual expenses exceeding $25 USD, and (vii) such other information as Mercy Corps may reasonably request.  Invoices will only be deemed received on the date they are delivered to the Authorized Representative pursuant to the Payment Terms (see Schedule I).  If Mercy Corps determines that Services that are the subject of an invoice have not been performed in accordance with the Statement of Services, Mercy Corps may dispute the invoice by sending Contractor notice of such dispute after Mercy Corps\u2019 receipt of the invoice. Such notice shall clearly state the specific Services disputed, and Mercy Corps\u2019 reason for disputing the performance of the Services. If both parties accept the dispute of the invoice, they shall agree in writing as to the steps required of Contractor to ensure that the performance of the disputed Services is subsequently completed in accordance with the Additional Terms, and the time required of Contractor to complete the Services.",
+		"uuid": "contract_clause:4e7bfaa58cd8a04bb06def1a735524ec",
+		"paragraph_index": 8
+	},
+	{
+		"paragraph": "Except as otherwise provided in the Statement of Services, Mercy Corps will pay each invoice (or adjusted invoice if the subject of dispute) in accordance with the Payment Terms within 30 days after the later of (i)\u00a0receipt of the invoice or (ii)\u00a0resolution of the items set forth in the notice of disputed charges.",
+		"uuid": "contract_clause:6ac9efee2b99594e2f84ef9e73385e53",
+		"paragraph_index": 9
+	},
+	{
+		"paragraph": "Mercy Corps may off-set any amount it owes Contractor against any amount Contractor owes Mercy Corps.",
+		"uuid": "contract_clause:b91e59268d8eb4ee79badbc9e1637767",
+		"paragraph_index": 10
+	},
+	{
+		"paragraph": "Taxes, Duties and Expenses.   ",
+		"uuid": "contract_clause:829239104667bbc18008a229090ab6fd",
+		"paragraph_index": 11
+	},
+	{
+		"paragraph": "Except as otherwise provided in the Statement of Services, Contractor is responsible for all expenses incurred by it in performing under this Contract and all taxes, duties and other governmental charges with respect to the provision of Services.  If the law requires Mercy Corps to withhold taxes from payments to Contractor, Mercy Corps may withhold those taxes and pay them to the appropriate taxing authority.  Mercy Corps will deliver to Contractor an official notice for such taxes.  Mercy Corps will use reasonable efforts to minimize any taxes withheld to the extent allowed by law.",
+		"uuid": "contract_clause:7cb4ed45a51ac48286ffa3f6c5b28690",
+		"paragraph_index": 12
+	},
+	{
+		"paragraph": "In the event Statement of Services does allow for reimbursement of Contractor expenses, such expenses must be reasonable and included in the scope of allowable expenses stated in Schedule I and fully documented with receipts and any other documentation reasonably necessary for Mercy Corps to determine the costs were reasonable and properly incurred.",
+		"uuid": "contract_clause:1d8b4b035dfed1e452cec4764c56ab82",
+		"paragraph_index": 13
+	},
+	{
+		"paragraph": "Representations, Warranties and Additional Covenants.   Contractor represents and warrants to Mercy Corps and covenants with Mercy Corps as follows.",
+		"uuid": "contract_clause:82493dfb822a41695fe0e63fa6448ddb",
+		"paragraph_index": 14
+	},
+	{
+		"paragraph": "Contractor has full rights and authority to enter into and perform its obligations under this Contract.  Contractor\u2019s performance will not violate any agreement or obligation between Contractor and any third party.",
+		"uuid": "contract_clause:6a2a3b245a69695f67c4cc43794799ac",
+		"paragraph_index": 15
+	},
+	{
+		"paragraph": "Contractor has the requisite skills to perform the Services in accordance with the SOW.",
+		"uuid": "contract_clause:c8a9c189a7b87f548a06ca5083b87703",
+		"paragraph_index": 16
+	},
+	{
+		"paragraph": "Contractor possesses all governmental and other certifications and licenses necessary to perform the Services.  Performance by Contractor of its obligations under this Contract will not infringe on any patent, copyright, trademark, trade secret or other proprietary right of any third party.",
+		"uuid": "contract_clause:88950643f8c91469f9952cbc932948e5",
+		"paragraph_index": 17
+	},
+	{
+		"paragraph": "Contractor will comply with all applicable law, regulations and rules in the performance of its obligations under this Contract.",
+		"uuid": "contract_clause:df793c27ec7f319f15e43e31e47cc022",
+		"paragraph_index": 18
+	},
+	{
+		"paragraph": "Contractor has not, and will not, engage in transactions with, or provide resources or support to, individuals and organizations associated with terrorism, including those individuals or entities that appear on the Specially Designated Nationals and Blocked Persons List maintained by the U.S.  Treasury (http://www.treasury.gov/resource-center/sanctions/SDN-List/Pages/default.aspx) or the United Nations Security designation list (http://www.un.org/sc/committees/1267/aq_sanctions_list.shtml).",
+		"uuid": "contract_clause:1218000c91f602ba2473ec8724b8b667",
+		"paragraph_index": 19
+	},
+	{
+		"paragraph": "Contractor will comply with and train its employees in all applicable laws against bribery, corruption, inaccurate books and records, inadequate internal controls and money-laundering, including the U.S. Foreign Corrupt Practices Act and the UK Bribery Act.  Contractor has not and will not offer or give any employee, agent, or representative of Mercy Corps anything of value to secure any business from Mercy Corps or influence such person to alter the terms, conditions, or performance of any contract with or purchase order from Mercy Corps, including but not limited to this Contract.",
+		"uuid": "contract_clause:97decb3634378c6b1d89ffb66e334c88",
+		"paragraph_index": 20
+	},
+	{
+		"paragraph": "Contractor, including its owners or employees, does not own, directly or indirectly, any other company that was competing for award of this Contract.  Contractor did not seek or obtain confidential information related to the award of this Contract from any Mercy Corps employee, agent or representative.  Contractor did not collude or conspire with any other individual or entity to limit competition for the award of this Contract, to set prices being offered or in any other way to interfere with free and open competition.",
+		"uuid": "contract_clause:e8886695e2c69828f1ab55907f26a730",
+		"paragraph_index": 21
+	},
+	{
+		"paragraph": "Contractor is not owned in whole or in part, directly or indirectly, by any immediate or extended family member of any Mercy Corps employee, agent or representative, or, if so owned, Contractor fully disclosed such relationship and any potential conflict of interest has been waived, in writing, by Mercy Corps.",
+		"uuid": "contract_clause:881f9407ab47cb8bde4d5444275c0bc4",
+		"paragraph_index": 22
+	},
+	{
+		"paragraph": "Contractor has not engaged in, and will not engage in, any of the following conduct:  (A) trafficking in persons (as defined in the Protocol to Prevent, Suppress, and Punish Trafficking in Persons, especially Women and Children, supplementing the UN Convention against Transnational Organized Crime); (B) procuring a commercial sex act; or (C) using forced labor.",
+		"uuid": "contract_clause:0ef13ea9b2213648f557b4d5f51986fe",
+		"paragraph_index": 23
+	},
+	{
+		"paragraph": "Contractor is not the subject or any governmental or donor investigation and has not been debarred or suspended by any government, governmental agency or donor.",
+		"uuid": "contract_clause:309e7a61583f8be94152856764f85db9",
+		"paragraph_index": 24
+	},
+	{
+		"paragraph": "Independent Contractor.   The parties intend to be independent Contractors.  Contractor will be solely responsible for and have control over the means, methods, techniques, personnel and procedures for performing the Services.  Neither party will be deemed an agent or partner of the other party.",
+		"uuid": "contract_clause:155784783b74b864b85a826062c574e8",
+		"paragraph_index": 25
+	},
+	{
+		"paragraph": "Work Product and Intellectual Property Rights.   ",
+		"uuid": "contract_clause:3da5e8bcbf5ab01ba17c5030a9ccc1c6",
+		"paragraph_index": 26
+	},
+	{
+		"paragraph": " \u201cWork Product\u201d means any and all  (1) intellectual property, intellectual property rights, materials, tangible personal property and other work product that Contractor creates (or has created), alone or jointly with one or more other persons, (a) that relates to any SOW under this Contract, (b) that results from or arises out of any services performed by Contractor for Mercy Corps,  (c) for which Contractor used equipment, supplies, facilities or trade secret information of Mercy Corps in creating such work product, or (d) that is derived or otherwise created from any intellectual property, intellectual property rights, materials, tangible personal property, or other assets of Mercy Corps; and (2)  materials that contain, embody, disclose, reflect, or refer to any of the foregoing.  ",
+		"uuid": "contract_clause:92fbb7f47b637a5eabb8622c72a17495",
+		"paragraph_index": 27
+	},
+	{
+		"paragraph": "Mercy Corps will be the sole owner of all Work Product.  To the extent allowed by applicable law, all Work Product that consists of subject matter of U.S. or any other country\u2019s copyright laws will constitute \u201cworks made for hire\u201d under applicable copyright laws.  Contractor will not provide Work Product to any person other than employees or agents of Mercy Corps.  Contractor will hold all Work Product in trust for Mercy Corps.  All Work Product will be deemed to be Confidential Information of Mercy Corps and subject to the provisions of Section 9.  ",
+		"uuid": "contract_clause:75dd26127041fbe7d64d13b87efc7425",
+		"paragraph_index": 28
+	},
+	{
+		"paragraph": "Contractor will promptly disclose in writing to Mercy Corps all Work Product that Contractor creates, alone or jointly with others, in the performance of its obligations under this Contract.",
+		"uuid": "contract_clause:b72ff253ad922674af3e216b4e083425",
+		"paragraph_index": 29
+	},
+	{
+		"paragraph": "Contractor hereby irrevocably assigns and transfers to Mercy Corps (i)\u00a0all rights, title and interest in all Work Product, (ii)\u00a0all related rights and remedies, and (iii)\u00a0all claims (for damages or otherwise) and causes of action with respect to any Work Product.",
+		"uuid": "contract_clause:33b598dca4c9322e1709f897d928dbce",
+		"paragraph_index": 30
+	},
+	{
+		"paragraph": "Contractor hereby irrevocably waives and agrees never to assert any Moral Rights that may exist anywhere in the world in or with respect to any Work Product, including claims for damages and other remedies.  \u201cMoral Rights\u201d means any and all right to claim authorship to or to object to any distortion, mutilation or other modification or other derogatory action in relation to a work, whether or not such action would be prejudicial to the author\u2019s reputation, and any similar right, existing under common or statutory law of any country in the world or under any treaty, regardless of whether or not such right is denominated or generally referred to as a \u201cmoral right\u201d.",
+		"uuid": "contract_clause:335b820642712e8dc141232d4844143c",
+		"paragraph_index": 31
+	},
+	{
+		"paragraph": "Confidentiality.   Contractor will maintain, and cause each of its employees and others it involves in performing its obligations under this Contract to maintain, the confidentiality of: (i) any information Mercy Corps provides to Contractor that Mercy Corps identifies as confidential; (ii) the terms and conditions of this Contract; and (iii) nonpublic information regarding Mercy Corps\u2019 policies and practices.  Upon Mercy Corps\u2019 request, Contractor will return to Mercy Corps all confidential information provided by Mercy Corps to Contractor.",
+		"uuid": "contract_clause:17a9f11f5aedf3bc81c7af2066e27f60",
+		"paragraph_index": 32
+	},
+	{
+		"paragraph": "Indemnification.   Contractor will indemnify Mercy Corps and each of its officers, directors, employees, representatives and agents (each, an \u201cIndemnitee\u201d), and hold them harmless from, any and all losses, claims, damages, liabilities, any government or donor investigations, fines or penalties and related expenses (including incidental and consequential damages and reasonable attorneys\u2019 fees, whether incurred at the investigative, trial or appellate level or otherwise) incurred by any Indemnitee or asserted against any Indemnitee by any third party or by Contractor arising out of, in connection with, or as a result of this Contract, any failure by Contractor to fully perform its obligations under this Contract or any breach by Contractor of any of its representations and warranties under this Contract, provided that such indemnity will not, as to any Indemnitee, be available to the extent that such losses, claims, damages, liabilities or related expenses resulted from the gross negligence or willful misconduct of such Indemnitee.",
+		"uuid": "contract_clause:b2f1167d87b3a293b455897e3f8524bb",
+		"paragraph_index": 33
+	},
+	{
+		"paragraph": "Termination.  This Contract may be terminated under the following circumstances:",
+		"uuid": "contract_clause:67b8f184eca5c04db685d62bac3465dd",
+		"paragraph_index": 34
+	},
+	{
+		"paragraph": "by both Parties on mutual written agreement of the Parties;",
+		"uuid": "contract_clause:e92eeb36d1ec9dd9155ff2b290ae27ce",
+		"paragraph_index": 35
+	},
+	{
+		"paragraph": "by either Party for its convenience with written notice and after the Termination Notice Period specified in Schedule I has expired;",
+		"uuid": "contract_clause:1ae5a993532c20ed415d47ccec6f1828",
+		"paragraph_index": 36
+	},
+	{
+		"paragraph": "by Mercy Corps immediately upon written notice in the event Mercy Corps\u2019 donor(s) terminates or withdraws funding that Mercy Corps would use to pay Contractor under this Contract;",
+		"uuid": "contract_clause:525e39ba8d8a9d8a0beb4388754a598b",
+		"paragraph_index": 37
+	},
+	{
+		"paragraph": "by either Party due to the non-terminating Party\u2019s breach of this Contract and failure to correct such breach within 15 days prior notice of such breach;",
+		"uuid": "contract_clause:18d80e7f361b741924b1d534d52ac98b",
+		"paragraph_index": 38
+	},
+	{
+		"paragraph": "be either Party upon written notice if a force majeure event, including any not reasonably foreseeable war, insurrection, change in law or government action or inaction, strike, natural disaster or similar event, prevents the terminating Party from being able to fulfill its obligations under this Contract; or",
+		"uuid": "contract_clause:8da64d94f2bcdbe44234166f7d9bf8a7",
+		"paragraph_index": 39
+	},
+	{
+		"paragraph": "by Mercy Corps immediately upon written notice if Mercy Corps using its sole discretion determines that Contractor has or will breach any of its warranties, covenants or representations in this Contract, in which case Mercy Corps may withhold any and all amounts owed to Contractor until such breach is remedied.",
+		"uuid": "contract_clause:016c2a4d964b941d167b992db33e1c84",
+		"paragraph_index": 40
+	},
+	{
+		"paragraph": "In the event of termination due to Contractor\u2019s breach of this Contract or by Contractor for Contractor\u2019s convenience, Mercy Corps will not be obligated to pay Contractor for any partially completed work.  In the event termination is due to Mercy Corps\u2019 breach of this Contract, by Mercy Corps for Mercy Corps\u2019 convenience, due to force majeure event, or due to loss of funding, Mercy Corps will be obligated to pay Contractor for its reasonable, pro-rated costs of work completed and expenses properly incurred prior to termination. However, Mercy Corps will not be responsible for any expenses incurred in anticipation of termination or suspension.",
+		"uuid": "contract_clause:5d22387178e588cd6e890f894f5fe4b3",
+		"paragraph_index": 41
+	},
+	{
+		"paragraph": "Dispute Resolution.   Any unresolved dispute or claims will be settled by arbitration administered by the International Centre for Dispute Resolution in accordance with its International Arbitration Rules.  The number of arbitrators will be one.  The place of arbitration will be Portland, Oregon.  The language of the arbitration will be English.",
+		"uuid": "contract_clause:adb0fbf7fc0436395f446ce0ef61e14a",
+		"paragraph_index": 43
+	},
+	{
+		"paragraph": "Access to Books and Records.   Mercy Corps, its donors (including, if applicable, USAID, and the Comptroller General of the United States) and any of their respective representatives will have access to any books, documents, papers and records of Contractor that are directly pertinent to this Contract for the purpose of making audits, examinations, excerpts and transcriptions for a period of seven years following the completion of the Contract.",
+		"uuid": "contract_clause:a575ecb44791c99bcab7f63a24d919ac",
+		"paragraph_index": 44
+	},
+	{
+		"paragraph": "Additional Donor Terms and Conditions.   The Donor Terms (if any) are incorporated in this Contract by reference and are fully binding on Contractor and Mercy Corps.  In the event of a conflict between the Donor Terms and any other provision of this Contract or any other document between Contractor and Mercy Corps, the Donor Terms will prevail.",
+		"uuid": "contract_clause:124aede0f662ba44cf566e8152be247f",
+		"paragraph_index": 45
+	},
+	{
+		"paragraph": "Miscellaneous.   ",
+		"uuid": "contract_clause:ac92f598343e1ebe728ed6a458ad97b2",
+		"paragraph_index": 46
+	},
+	{
+		"paragraph": "This Contract and the rights and obligations of the parties hereto will be governed by and construed in accordance with the laws of the State of Oregon (exclusive of the United Nations Convention on Contracts for the International Sale of Goods), without regard to the conflict of laws provisions thereof.",
+		"uuid": "contract_clause:ba14a2661198fe02f10afbb7e0e8905b",
+		"paragraph_index": 47
+	},
+	{
+		"paragraph": "No right or obligation under this Contract (including the right to receive monies due) will be assigned without the prior written consent of Mercy Corps.  Any assignment without such consent will be void.  Mercy Corps may assign its rights under this Contract.",
+		"uuid": "contract_clause:9e4b1331b4c75208270432b7f9020347",
+		"paragraph_index": 48
+	},
+	{
+		"paragraph": "All notices provided for herein will be in writing and will be delivered by hand or overnight courier service, email or fax in accordance with each party\u2019s contact information set forth on Schedule I.  Notices will be deemed to have been given when received, provided that notices sent by email or fax will be deemed received when sent (except that, if not sent during normal business hours for the recipient, will be deemed received at the opening of business on the next business day for the recipient).",
+		"uuid": "contract_clause:c6e1f247de582497624bf27f9ca98161",
+		"paragraph_index": 49
+	},
+	{
+		"paragraph": "Time is of the essence of each and every obligation of Contractor under this Contract.",
+		"uuid": "contract_clause:aafe23a92457a82c3307c8baf6de541d",
+		"paragraph_index": 50
+	},
+	{
+		"paragraph": "If any provision of this Contract is prohibited by or invalid under applicable law, such provision will be ineffective only to the extent of such prohibition or invalidity without invalidating the remainder of such provision or any remaining provisions of this Contract.",
+		"uuid": "contract_clause:36da451ef5e9d0e0a07be68650df5f6a",
+		"paragraph_index": 51
+	},
+	{
+		"paragraph": "Except as otherwise provided above, this Contract may be amended or modified only by a written document signed by both parties.  This Contract constitutes the entire contract between the parties relating to the subject matter hereof and supersedes any and all previous Contracts and understandings, oral or written, relating to the subject matter hereof.",
+		"uuid": "contract_clause:1ed232dd00096d2a120756a6e0ee70d6",
+		"paragraph_index": 52
+	},
+	{
+		"paragraph": "No failure on the part of Mercy Corps to exercise, and no delay in exercising, any right, power, privilege or remedy under this Contract will operate as a waiver thereof; nor will any single or partial exercise of any such right, power, privilege or remedy preclude any other or further exercise thereof or the exercise of any other right, power, privilege or remedy.  The rights and remedies under this Contract are cumulative and not exclusive of any rights, powers, privileges and remedies that may otherwise be available to Mercy Corps.",
+		"uuid": "contract_clause:8e9ec0ef3091bb3d072848098702748c",
+		"paragraph_index": 53
+	},
+	{
+		"paragraph": "The warranty, representations, dispute resolution, confidentiality and indemnification provisions of this Contract will survive the termination, cancellation of expiration of this Contract.",
+		"uuid": "contract_clause:012c7850baafe87d8930b769f12b559e",
+		"paragraph_index": 54
+	},
+	{
+		"paragraph": "IN WITNESS WHEREOF, this Service Contract has been duly executed as of the date first written above.",
+		"uuid": "contract_clause:2575cf34389f10d7088a363a7fdc0804",
+		"paragraph_index": 55
+	},
+	{
+		"paragraph": "MERCY CORPS",
+		"uuid": "contract_clause:d551988ef4cb970fee5e907078863738",
+		"paragraph_index": 57
+	},
+	{
+		"paragraph": "By:",
+		"uuid": "contract_clause:8f55c64037fdfe1a9ef874c1431473f8",
+		"paragraph_index": 58
+	},
+	{
+		"paragraph": "Name:",
+		"uuid": "contract_clause:4e140ba723a03baa6948340bf90e2ef6",
+		"paragraph_index": 59
+	},
+	{
+		"paragraph": "Title:",
+		"uuid": "contract_clause:51ec9bf4aaeab1b25bb57f9f8d4de557",
+		"paragraph_index": 60
+	},
+	{
+		"paragraph": "________________________________",
+		"uuid": "contract_clause:173890f340c22b9bea9eddfe55604995",
+		"paragraph_index": 62
+	},
+	{
+		"paragraph": "By:",
+		"uuid": "contract_clause:8f55c64037fdfe1a9ef874c1431473f8",
+		"paragraph_index": 63
+	},
+	{
+		"paragraph": "Name:",
+		"uuid": "contract_clause:4e140ba723a03baa6948340bf90e2ef6",
+		"paragraph_index": 64
+	},
+	{
+		"paragraph": "Title:",
+		"uuid": "contract_clause:51ec9bf4aaeab1b25bb57f9f8d4de557",
+		"paragraph_index": 65
+	},
+	{
+		"paragraph": "SCHEDULE\u00a0I: ADDITIONAL TERMS",
+		"uuid": "contract_clause:19239f39ae8672c43c8461dea2873f83",
+		"paragraph_index": 69
+	},
+	{
+		"paragraph": "Statement of Services \u2013 Fixed Price",
+		"uuid": "contract_clause:16efcb6e6af691e8a43fb8d26060c445",
+		"paragraph_index": 70
+	},
+	{
+		"paragraph": "1. Services and Statement of Work: In accordance with the terms of the Contract, Contractor agrees to perform the following services in the following manner. ",
+		"uuid": "contract_clause:b87e407ca51bf46d80ea0b7b8268889f",
+		"paragraph_index": 72
+	},
+	{
+		"paragraph": "a.Background: Mercy Corps is a leading global organization that works in 40 countries around the world to alleviate suffering, poverty and oppression by helping people build secure, productive and just communities. Since 2012, Mercy Corps has worked to tackle Nigeria\u2019s complex and evolving needs through a range of dynamic, multi-sector programs. In Nigeria, Mercy Corps is addressing the immediate humanitarian needs of vulnerable communities; enabling conflict-affected populations to transform from relief to resilience using market-driven approaches; and supporting community-led peace building efforts. Mercy Corps Nigeria is currently in need of HMO services for the health/medical insurance of its national staff members.",
+		"uuid": "contract_clause:1851ddb5612cb3a8cdc1f6a78fbc98e2",
+		"paragraph_index": 74
+	},
+	{
+		"paragraph": "b.Scope of Work: Please refer to the details of SOW and services as per Section 5 \u2013 Tender Package",
+		"uuid": "contract_clause:eed6b594a8e75cc7b8c953279ada3940",
+		"paragraph_index": 75
+	},
+	{
+		"paragraph": "Family of 4 means:",
+		"uuid": "contract_clause:6cab41879d24e74232994a0b527b8109",
+		"paragraph_index": 76
+	},
+	{
+		"paragraph": "Principal, Spouse and 2 Dependent\u2019s ",
+		"uuid": "contract_clause:df047f9bd8b7adead9df15323f3783a8",
+		"paragraph_index": 77
+	},
+	{
+		"paragraph": "Principal and 3 Dependent\u2019s i.e. (3 Siblings or 2 Siblings and 1 Parent)",
+		"uuid": "contract_clause:872249604e8261e661a74ec5d068ef05",
+		"paragraph_index": 78
+	},
+	{
+		"paragraph": "Family of 6 means:",
+		"uuid": "contract_clause:1c99e139e7bc5c13cd6a2cc2efa43c08",
+		"paragraph_index": 79
+	},
+	{
+		"paragraph": "Principal, Spouse and 4 Dependent\u2019s or ",
+		"uuid": "contract_clause:b4a86af008f5c89fc75b5185dc04ac04",
+		"paragraph_index": 80
+	},
+	{
+		"paragraph": "Principal, Spouse, 2 Dependents, 2 Parents/3 dependents, and 1 parent.",
+		"uuid": "contract_clause:e5457ac605c2a244f5c3a5332b3d3551",
+		"paragraph_index": 81
+	},
+	{
+		"paragraph": "2. Performance Period: The start date of this Contract is XXX and, unless earlier terminated in accordance with Section 11, has an end date of XXX. ",
+		"uuid": "contract_clause:686daf7ed94df90f9aff60f7bb8f8774",
+		"paragraph_index": 82
+	},
+	{
+		"paragraph": "3. Pricing: This is a firm and fixed price Contract that includes a ceiling amount of NGN 140,000,000 (USD 362,009. for Services rendered under this Contract. ",
+		"uuid": "contract_clause:8ebf13bf6f80b680c9ed6cab7abe3eef",
+		"paragraph_index": 83
+	},
+	{
+		"paragraph": "Invoicing and Payment Terms: Contractor will submit an Invoice in accordance with pricing as specified in the Contract.  Mercy Corps will make payment to Contractor for all sums not in dispute within 30 days of receipt of Contractor\u2019s invoice(s) (the \u201cPayment Terms\u201d).",
+		"uuid": "contract_clause:3380fb239a16ff8662e6f4949d191207",
+		"paragraph_index": 84
+	},
+	{
+		"paragraph": "Key Personnel: [if applicable, include a list of the Contractor\u2019s personnel that are key to the bargain and the project and that the Contractor cannot change without prior written approval.  If not applicable, note \u201cNot Applicable\u201d here.] (the \u201cKey Personnel\u201d). ",
+		"uuid": "contract_clause:77ee65f7a4bf36b405902ae3f1d41fe9",
+		"paragraph_index": 85
+	},
+	{
+		"paragraph": "Authorized Representatives and Contact Information: ",
+		"uuid": "contract_clause:126310c1f7f50f9186965014ebfdd0bf",
+		"paragraph_index": 88
+	},
+	{
+		"paragraph": "Mercy Corps: Only the following Mercy Corps employees are authorized to agree to any amendment of this Contract: ",
+		"uuid": "contract_clause:2bd55966e8134c05589b46abd233ef00",
+		"paragraph_index": 89
+	},
+	{
+		"paragraph": "Ndubisi Anyanwu",
+		"uuid": "contract_clause:210258219fb32ba112043f7540e55fc1",
+		"paragraph_index": 91
+	},
+	{
+		"paragraph": "Country Director ",
+		"uuid": "contract_clause:26a0abbfcfc462a5b408d92c7e2759a1",
+		"paragraph_index": 92
+	},
+	{
+		"paragraph": "Mercy Corps Nigeria",
+		"uuid": "contract_clause:b7247419489ab8f0a0ba1558fd5d7b2d",
+		"paragraph_index": 93
+	},
+	{
+		"paragraph": "Contractor: Contractor\u2019s authorized representative for all purposes is: ",
+		"uuid": "contract_clause:77264197200836d804f8ae2796bf2fee",
+		"paragraph_index": 94
+	},
+	{
+		"paragraph": "Only the following Mercy Corps departments/employees are authorized to receive invoices, accept, or reject Services or sign SCRs. ",
+		"uuid": "contract_clause:7c5a41e8eb6db47aec12a5699364bf4f",
+		"paragraph_index": 95
+	},
+	{
+		"paragraph": "HR, Department and addressed to HR Director",
+		"uuid": "contract_clause:a042f19f21878c9c541e7aea3466f7b6",
+		"paragraph_index": 97
+	},
+	{
+		"paragraph": "Mercy Corps Nigeria",
+		"uuid": "contract_clause:b7247419489ab8f0a0ba1558fd5d7b2d",
+		"paragraph_index": 98
+	},
+	{
+		"paragraph": "AND",
+		"uuid": "contract_clause:558ffc8f5770d8e4f95f51d822685532",
+		"paragraph_index": 100
+	},
+	{
+		"paragraph": "Ademola Kadri",
+		"uuid": "contract_clause:7dcf4a8d286223a8b9251a536837381f",
+		"paragraph_index": 102
+	},
+	{
+		"paragraph": "Operations Manager",
+		"uuid": "contract_clause:a1b5883b5d75b9edc2fd14e87bdccc86",
+		"paragraph_index": 103
+	},
+	{
+		"paragraph": "Mercy Corps Nigeria",
+		"uuid": "contract_clause:b7247419489ab8f0a0ba1558fd5d7b2d",
+		"paragraph_index": 104
+	},
+	{
+		"paragraph": "Termination for Convenience Notice Period: Either parties upon one month written notice can terminate this contract. (the \u201cTermination Notice Period\u201d)",
+		"uuid": "contract_clause:73a7619f7cdc9109c07741ac03780aff",
+		"paragraph_index": 106
+	},
+	{
+		"paragraph": "Donor Terms: The Donor Terms as set forth-in Schedule II are hereby incorporated in this Contract by reference.",
+		"uuid": "contract_clause:df02e243a76abc4626045233fdabe0d2",
+		"paragraph_index": 107
+	},
+	{
+		"paragraph": "SCHEDULE II",
+		"uuid": "contract_clause:34dad6dc20d5e99b71408933485378c3",
+		"paragraph_index": 109
+	},
+	{
+		"paragraph": "Donor Terms",
+		"uuid": "contract_clause:29c428fced6ea2d12c43a6a4e444d214",
+		"paragraph_index": 111
+	},
+	{
+		"paragraph": "Other USAID Contract Provisions Required by Law",
+		"uuid": "contract_clause:778425cb5571573e9a1f33476924af94",
+		"paragraph_index": 112
+	},
+	{
+		"paragraph": "Mercy Corps, in accordance with donor regulations, requires certain certifications and provisions, set forth herein, to be included in all contracts.",
+		"uuid": "contract_clause:ea734b5eb4c494aab857863eaec853c5",
+		"paragraph_index": 113
+	},
+	{
+		"paragraph": "The recipient must not engage in transactions with, or provide resources or support to, individuals and organizations associated with terrorism, including those individuals or entities that appear on the Specially Designated Nationals and Blocked Persons List maintained by the U.S. Treasury (online at: http://www.treasury.gov/resource-center/sanctions/SDNList/Pages/default.aspx)",
+		"uuid": "contract_clause:8b3794ded7a9bf25c0f98418288ec0ad",
+		"paragraph_index": 115
+	},
+	{
+		"paragraph": "or the United Nations Security designation list (online at: http://www.un.org/sc/committees/1267/aq_sanctions_list.shtml)",
+		"uuid": "contract_clause:00b8eeb98619d1a01a4bf538dc4d9c4a",
+		"paragraph_index": 116
+	},
+	{
+		"paragraph": "Contractor certifies that neither it nor its principals is presently excluded or disqualified from participation in this transaction by any US Government department or agency. ",
+		"uuid": "contract_clause:adefcd0032c69083e9dae3914f19458a",
+		"paragraph_index": 118
+	},
+	{
+		"paragraph": "Contractor certifies that it will not and has not used any funds received directly or indirectly from the U.S. Government to pay any person or organization for influencing or attempting to influence an officer or employee of any agency, a member of U.S. Congress, officer or employee of Congress, or an employee of a member of Congress in connection with obtaining this Contract or any other U.S. government funded project.\u00a0 ",
+		"uuid": "contract_clause:412d25b20dccc14a341ec2bf6f02ffe3",
+		"paragraph_index": 120
+	},
+	{
+		"paragraph": "Mercy Corps, USAID, and the Comptroller General of the United States, or any of their duly authorized representatives, shall have access to any books, documents, papers and records of Contractor which are directly pertinent to this Contract for the purpose of making audits, examinations, excerpts and transcriptions.\u00a0 ",
+		"uuid": "contract_clause:72d3608f25eaecbe6eaf5faec1009c29",
+		"paragraph_index": 122
+	},
+	{
+		"paragraph": "The Contractor or its employees, or any Subcontractor or its employees, must not engage in any of the following conduct:",
+		"uuid": "contract_clause:db0800b3ae6a5e84db609ae322068f31",
+		"paragraph_index": 124
+	},
+	{
+		"paragraph": "(i) Trafficking in persons (as defined in the Protocol to Prevent, Suppress, and Punish Trafficking in Persons, especially Women and Children, supplementing the UN Convention against Transnational Organized Crime) during the period of this Contract;",
+		"uuid": "contract_clause:e96906a385a477bff06261e8a1c2cae8",
+		"paragraph_index": 125
+	},
+	{
+		"paragraph": "(ii) Procure a commercial sex act during the period of this Contract; ",
+		"uuid": "contract_clause:c16d28534fc4c10379d6591a908c5707",
+		"paragraph_index": 126
+	},
+	{
+		"paragraph": "(iii) Use forced labor in the performance of the Contract; or",
+		"uuid": "contract_clause:034faf218bf5de3a044413aa2ae75c7e",
+		"paragraph_index": 127
+	},
+	{
+		"paragraph": "(iv) Commit acts that directly support or advance trafficking in persons, including the following acts:",
+		"uuid": "contract_clause:f94efd802619446d233643acd582b0a3",
+		"paragraph_index": 128
+	},
+	{
+		"paragraph": "a. Destroying, concealing, confiscating, or otherwise denying an employee access to that employee's identity or immigration documents; ",
+		"uuid": "contract_clause:5115687f5d1411633a9d6a284654a951",
+		"paragraph_index": 129
+	},
+	{
+		"paragraph": "b. Failing to provide return transportation or pay for return transportation costs to an employee from a country outside the United States to the country from which the employee was recruited upon the end of employment if requested by the employee, unless: ",
+		"uuid": "contract_clause:d40feb786ba9cf019c2fcea32415b3f3",
+		"paragraph_index": 131
+	},
+	{
+		"paragraph": "exempted from the requirement to provide or pay for such return transportation by Mercy Corps under this award; or ",
+		"uuid": "contract_clause:40483f5c2266fbdea5d0af566a17e04d",
+		"paragraph_index": 133
+	},
+	{
+		"paragraph": "the employee is a victim of human trafficking seeking victim services or legal redress in the country of employment or a witness in a human trafficking enforcement action; ",
+		"uuid": "contract_clause:94fb62f6a78075f05eb7143071cc54b4",
+		"paragraph_index": 135
+	},
+	{
+		"paragraph": "c. Soliciting a person for the purpose of employment, or offering employment, by means of materially false or fraudulent pretenses, representations, or promises regarding that employment; ",
+		"uuid": "contract_clause:4a02afdb4ec832b71b8c95206c5ddb79",
+		"paragraph_index": 137
+	},
+	{
+		"paragraph": "d. Charging employees recruitment fees ; or ",
+		"uuid": "contract_clause:fbc317ee4b592140cc78fb047a9cba51",
+		"paragraph_index": 139
+	},
+	{
+		"paragraph": "e. Providing or arranging housing that fails to meet the host country housing and safety standards. ",
+		"uuid": "contract_clause:def5a52b2d023e8713ff461bf0e868f2",
+		"paragraph_index": 141
+	},
+	{
+		"paragraph": "Contractor agrees to report in a timely manner to Mercy Corps any credible information from any source that alleges the contractor or any sub-contractor has engaged in any of the prohibited activities identified in this provision. ",
+		"uuid": "contract_clause:c49817d5c675286936ea39c94ba6efb7",
+		"paragraph_index": 142
+	},
+	{
+		"paragraph": "The Contractor must inform its employees working under this contract in the predominant native language of the workforce that they are afforded the employee whistleblower rights and protections provided under 41 U.S.C. \u00a7 4712; and ",
+		"uuid": "contract_clause:4d8ac7e18eb54c007747fe77447fbe3b",
+		"paragraph_index": 144
+	},
+	{
+		"paragraph": "Prohibition on Requiring Certain Internal Confidentiality Agreements or Statements ",
+		"uuid": "contract_clause:470fd7ff8e8353d60394368578c0e6cf",
+		"paragraph_index": 146
+	},
+	{
+		"paragraph": "The Contractor must not require its employees or sub-contractors to sign or comply with internal confidentiality agreements or statements that prohibit or otherwise restrict employees or sub-contractors from lawfully reporting waste, fraud, or abuse related to the performance of this contract to Mercy Corps or to USAID\u2019s Office of the Inspector General. ",
+		"uuid": "contract_clause:baf76c12b1e147f06016b0c40aea5980",
+		"paragraph_index": 148
+	},
+	{
+		"paragraph": "The Contractor must notify current employees and sub-contractors that prohibitions and restrictions of any preexisting internal confidentiality agreements or statements covered by this provision, to the extent that such prohibitions and restrictions are inconsistent with the prohibitions of this provision, are no longer in effect. ",
+		"uuid": "contract_clause:035579a9aa1a4eb46b2a3630e36ac810",
+		"paragraph_index": 150
+	},
+	{
+		"paragraph": "If Mercy Corps, USAID or other authorized officials of the US Government determines that the Contractor is not in compliance with the requirements of this provision, Mercy Corps may, at its sole discretion, suspend or terminate the contract.  Further, Mercy Corps may, at its sole discretion, decide not pay a portion or all of amounts invoiced or expenditures incurred, as applicable, by the Contractor with funds provided under this contract, and also may require the Contractor to refund a portion or all of any amounts paid to the Contractor under this contract.",
+		"uuid": "contract_clause:620fa53629861f2c51a859e473cb7c3c",
+		"paragraph_index": 152
+	},
+	{
+		"paragraph": "Definitions:",
+		"uuid": "contract_clause:a1b58c5793a9c4b1596f555d3c46ca7c",
+		"paragraph_index": 154
+	},
+	{
+		"paragraph": "Terms in this clause will have the meaning defined in this section or as defined in 2 CFR 200.",
+		"uuid": "contract_clause:abbe6ff622d49b94b1e0bb95e3047e8e",
+		"paragraph_index": 156
+	},
+	{
+		"paragraph": "\u201cInternal confidentiality agreement or statement\u201d means a confidentiality agreement or any other written statement that the Contractor requires any of its employees or sub-contractors to sign regarding nondisclosure of recipient information, except that it does not include confidentiality agreements arising out of civil litigation or confidentiality agreements that Contractor employees or sub-contractors sign at the behest of a US government agency. ",
+		"uuid": "contract_clause:91174d3493c15490e2ddd8a70b9a36b6",
+		"paragraph_index": 157
+	},
+	{
+		"paragraph": "The Contractor must include this provision, including this paragraph (e), in sub awards and sub-contracts funded under this contract.",
+		"uuid": "contract_clause:4f41fe29c11b35fc46cdf77251f7d0e7",
+		"paragraph_index": 159
+	},
+	{
+		"paragraph": "Contractor must disclose, in a timely manner, in writing to the USAID Office of Inspector General and Mercy Corps all violations of US government criminal law involving fraud, bribery or gratuity violations potentially affecting this Contract.",
+		"uuid": "contract_clause:9f814bcf7fcafcd004d3c17b5803fd41",
+		"paragraph_index": 161
+	},
+	{
+		"paragraph": "Disclosures to USAID must be sent to:",
+		"uuid": "contract_clause:f379235d0768461059f659ad5032a3d6",
+		"paragraph_index": 163
+	},
+	{
+		"paragraph": "U.S. Agency for International Development",
+		"uuid": "contract_clause:d8ce3ce9c69cddcd4d394d501bda31b0",
+		"paragraph_index": 164
+	},
+	{
+		"paragraph": "Office of the Inspector General",
+		"uuid": "contract_clause:613761f033e3c910a9978b8a2f93d4bd",
+		"paragraph_index": 165
+	},
+	{
+		"paragraph": "P.O. Box 657",
+		"uuid": "contract_clause:1ac1f811e4c0347ab048ad3365009572",
+		"paragraph_index": 166
+	},
+	{
+		"paragraph": "Washington, DC 200044-0657",
+		"uuid": "contract_clause:ed9efaf39efaed4c2a20cd37620912fe",
+		"paragraph_index": 167
+	},
+	{
+		"paragraph": "Phone: 1-800-230-6539 or 202-712-1023",
+		"uuid": "contract_clause:1f4cf38374c8134156c6abb1cd68c885",
+		"paragraph_index": 168
+	},
+	{
+		"paragraph": "Email: ig.hotline@usaid.gov",
+		"uuid": "contract_clause:65e90afc4595120ea9bd86c9f0edcce7",
+		"paragraph_index": 169
+	},
+	{
+		"paragraph": "URL: https://oig.usaid.gov/content/usaid-contractor-reporting-form",
+		"uuid": "contract_clause:25aa46cc5e64d41e7084229673d73359",
+		"paragraph_index": 170
+	},
+	{
+		"paragraph": "USAID policy requires that the contractor not discriminate against any beneficiaries in implementation of this contract, such as, but not limited to, by withholding, adversely impacting, or denying equitable access to the benefits provided through this contract on the basis of any factor not expressly stated in the contract. This includes, for example, race, color, religion, sex (including gender identity, sexual orientation, and pregnancy), national origin, disability, age, genetic information, marital status, parental status, political affiliation, or veteran's status. Nothing in this provision is intended to limit the ability of the contractor to target activities toward the assistance needs of certain populations as defined in the contract.",
+		"uuid": "contract_clause:240a1a72d27d93854a662dea92330bcb",
+		"paragraph_index": 172
+	},
+	{
+		"paragraph": "The Contractor agrees to incorporate the terms of \u201cSchedule 1I\u201d word-for-word in all of its sub-contracts funded under this Contract, if any.\u00a0 ",
+		"uuid": "contract_clause:c43779d742356e63b7f8471fd0a1ff63",
+		"paragraph_index": 174
+	},
+	{
+		"paragraph": "Other Contract Provisions Required by Law or MC\u2019s Donor ",
+		"uuid": "contract_clause:e30730eacbcad5d4126e3d1b4d88568d",
+		"paragraph_index": 189
+	},
+	{
+		"paragraph": "Mercy Corps has received funding from the European Union. Mercy Corps, in accordance with the European Union regulations under which this contract is executed, requires certain certifications and provisions, set forth herein, to be included in all contracts.",
+		"uuid": "contract_clause:1d1d3fa4cfad5d2903bd4f37416b2373",
+		"paragraph_index": 191
+	},
+	{
+		"paragraph": "Liability/Indemnity",
+		"uuid": "contract_clause:5e6588427b6a853dd50585443a2f3e5b",
+		"paragraph_index": 193
+	},
+	{
+		"paragraph": "Under no circumstances nor for any reason whatsoever will the European Union be held liable for damages as a result of the work pursuant to this Contract.  ",
+		"uuid": "contract_clause:15322ef075d95c093e37947a1dd19016",
+		"paragraph_index": 194
+	},
+	{
+		"paragraph": "Right of Access/ Audit",
+		"uuid": "contract_clause:56a336c0e0e6929852ec7ff534349cff",
+		"paragraph_index": 195
+	},
+	{
+		"paragraph": "The Vendor will be responsible for holding all invoices, receipts and financial and accounting documents relating to this Contract for at least seven years following final payment made under this Contract.",
+		"uuid": "contract_clause:72eb8ebc2bdbf584af786529c94d9334",
+		"paragraph_index": 196
+	},
+	{
+		"paragraph": "The Vendor will allow Mercy Corps or the European Union (or any other organisation authorised by the European Union) access to the location where the Vendor is based or any location where the Services are being implemented and to all documents, information and other material related to this Contract (including in electronic format), necessary to assess, or audit the implementation of the project and compliance with this Contract.   Such audit may take place at any time during this Contract and up to seven years following final payment made under this Contract.  ",
+		"uuid": "contract_clause:8e43124ccd80d5e70920a5cf514e6ba4",
+		"paragraph_index": 197
+	},
+	{
+		"paragraph": "Confidentiality ",
+		"uuid": "contract_clause:261b9a80e61ac09448b9080c2bd93302",
+		"paragraph_index": 198
+	},
+	{
+		"paragraph": "The Vendor acknowledges that Mercy Corps has reporting obligations to the European Union.\u00a0 Accordingly, the Vendor consents to Mercy Corps sharing information about the Vendor or the Services with the European Union as required.",
+		"uuid": "contract_clause:9566df2266ee1a79ff53aaf5524c26ee",
+		"paragraph_index": 199
+	},
+	{
+		"paragraph": "Anti-corruption",
+		"uuid": "contract_clause:c3435071d35d0de92501bd3c65985183",
+		"paragraph_index": 200
+	},
+	{
+		"paragraph": "The Parties recognize that Mercy Corps has a zero tolerance approach to bribery and corruption.  The Vendor will comply with all relevant anti-bribery and anti-corruption laws (including the UK Bribery Act 2010) and comply with the principles of Mercy Corps\u2019 Anti-Corruption and Anti-Bribery Policies, or equivalent policies, including: (a) not accepting or offering a bribe of facilitation payment; and (b) reporting immediately to Mercy Corps any bribery issues which the Vendor becomes aware of during this Contract; and, at the reasonable request of Mercy Corps, confirming in writing that they have complied with this Clause and provide any information reasonably requested in support of such compliance.  ",
+		"uuid": "contract_clause:5557f9b575922ca3e9f9443a0974f5e0",
+		"paragraph_index": 202
+	},
+	{
+		"paragraph": "Mercy Corps recognizes that in complying with this Clause, the Vendor is not expected to risk life, limb or freedom.  ",
+		"uuid": "contract_clause:85a1c60c7ef48036d821c43ef40584a2",
+		"paragraph_index": 204
+	},
+	{
+		"paragraph": "Visibility",
+		"uuid": "contract_clause:1729a56cfc89021478498fe0c89a843a",
+		"paragraph_index": 206
+	},
+	{
+		"paragraph": "Any information or publications, in any form and medium, including the Internet, published pursuant to this Contract must include the following text or a similar disclaimer: \u201cThis document has been produced with the financial assistance of the European Union.  The views expressed herein should not be taken, in any way, to reflect the official opinion of the European Union.",
+		"uuid": "contract_clause:3abae0037d1cd0a7b63f89643415723f",
+		"paragraph_index": 208
+	},
+	{
+		"paragraph": "Principal of Ethical Procurement",
+		"uuid": "contract_clause:47690ac926a690b131eefa3292eac4b7",
+		"paragraph_index": 210
+	},
+	{
+		"paragraph": "The Vendor acknowledges that Mercy Corps must comply with the European Union\u2019s principle of Ethical Procurement including adhering to the minimum ethical standards of the avoidance of child labour, and the respect of basic social rights and working conditions based on international labour standards. ",
+		"uuid": "contract_clause:a2ce84aeb5588599198cb87e79a256c8",
+		"paragraph_index": 212
+	},
+	{
+		"paragraph": "Safeguarding",
+		"uuid": "contract_clause:624fc5761d99b14ac8c36c81e76914b5",
+		"paragraph_index": 214
+	},
+	{
+		"paragraph": "The Vendor acknowledges that, under the Donor Contract, the recipients of funds are required to have robust safeguarding policies including anti-human trafficking, child protection, sexual exploitation and abuse, and . Mercy Corps reserves the right to ask for the relevant policies and mechanisms to adhere to these. The Vendor agrees to immediately report to Mercy Corps any credible evidence of trafficking in persons or exploitation that involve funds or resources provided. The Vendor may use Mercy Corps\u2019 integrity hotline to report any such events (mercycorps.org/integrityhotline). The Vendor shall inform its staff that they can report any wrongdoing related to this Contract to the integrity hotline without any risk of retaliation.",
+		"uuid": "contract_clause:72dd73e776c1f779b5d0147b9315ce9d",
+		"paragraph_index": 216
+	},
+	{
+		"paragraph": "Anti-terrorism",
+		"uuid": "contract_clause:11932c6f768e0d4977f9e9eb40e9da6e",
+		"paragraph_index": 218
+	},
+	{
+		"paragraph": "The Vendor will seek to ensure that none of the funds or assets provided under this Agreement are made available or used to provide support to individuals, groups or entities associated with terrorism.",
+		"uuid": "contract_clause:a3704dc4f21fbc1fe2d453f0dcc5b910",
+		"paragraph_index": 220
+	},
+	{
+		"paragraph": "The Vendor is responsible for taking all appropriate precautions and institute all procedures necessary to prevent any portion of the Donor funds from being so used. The Vendor shall screen its suppliers and contractors financed through this Agreement to ensure that such parties are not included in the EU Sanctions List (www.sanctionsmap.eu).",
+		"uuid": "contract_clause:a4876c7920a056eb06813cc29b4ca6bf",
+		"paragraph_index": 221
+	},
+	{
+		"paragraph": "If, during the course of this Agreement, the Vendor discovers that any funds have been made available to, or for the benefit of, any persons, groups or entities who fall under the scope of the EU Sanctions List, it must inform Mercy Corps immediately through the link mercycorps.org/integrityhotline. ",
+		"uuid": "contract_clause:d2bd35950e55950b0bc127f17b4dceb6",
+		"paragraph_index": 223
+	},
+	{
+		"paragraph": "Cancelation of the Contract",
+		"uuid": "contract_clause:176b91698a69249634dfa97bbcd7e99b",
+		"paragraph_index": 225
+	},
+	{
+		"paragraph": "If any illegal or corrupt practices were or are committed in the award or execution of this Contract, , including if any offer, gift, payment, contribution or benefit of any kind was accepted as an inducement or reward for the award or execution of this Contract, this Contract will be cancelled with immediate effect, in which case Mercy Corps will return to the Vendor any items delivered and the Vendor will return to Mercy Corps any funds paid (at each of their own cost, unless otherwise agreed).   ",
+		"uuid": "contract_clause:f2d801727d31bba8cb2af1ee2baac688",
+		"paragraph_index": 227
 	}
-  ]
+]

@@ -52,6 +52,7 @@ ___
     AI_ROLE_TEMPLATE: str = """"""
 
 
+# list of supported ai models, I just need it form enums lol
 class AIModel:
     OPENAI_GPT_4 = ""
     MISTRAL_LARGE_LATEST = "mistral-large-latest"

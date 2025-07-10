@@ -24,6 +24,7 @@ from utils import (
     ParagraphMatch, 
     PromptBodyTemplate)
 from langchain_core.prompts import PromptTemplate
+from ai_agent import DocxAIAgent
 
 import hashlib # I don't think I'd keep this here too long
 
@@ -50,6 +51,7 @@ def main(argv: t.List[str]) -> int:
         model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
         f.close()
     docx_parser: DocxParser = DocxParser()
+    ai_agent: DocxAIAgent = DocxAIAgent() 
     contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = docx_parser.get_paragraphs_with_comments(sample)
     if contract_meta:
         if len(contract_meta) != 0:
@@ -60,10 +62,12 @@ def main(argv: t.List[str]) -> int:
             match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
             for item in filtered_contract_meta:
                 paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx)
-                
+            
             for idx in paragraph_to_body:
                 logging.info(f"paragraph: {idx} ::::::::::::::::::::::")
                 logging.info(paragraph_to_body[idx])
+                logging.info(ai_agent.get_revision_analysis(idx, paragraph_to_body[idx]))
+                logging.info(f"+++++++++++++++++++++++++++++++++++++++")
     return 0
 
 

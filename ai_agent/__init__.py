@@ -40,7 +40,7 @@ class DocxAIAgent:
                     mistral_api_key=self._api_key, 
                     temperature=0,)
             case _:
-                logging.error("Model {model_name} not unsopported")
+                logging.error("Model {model_name} not unsupported")
                 raise
         
 

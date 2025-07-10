@@ -15,9 +15,6 @@ load_dotenv(DOT_ENV_PATH)
 
 
 
-# BaseChatModel
-
-
 class DocxAIAgent:
     _api_key: str = ""
     _model_name: str = "" 
@@ -40,8 +37,7 @@ class DocxAIAgent:
                     mistral_api_key=self._api_key, 
                     temperature=0,)
             case _:
-                logging.error("Model {model_name} not unsupported")
-                raise
+                raise ValueError(f"Unsupported model: {model_name}")
         
 
 

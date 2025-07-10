@@ -56,6 +56,12 @@ class DocxAIAgent:
         ])
         prompt = prompt_template.format(body=body)
         print(prompt_template.format(body=body))
-        print("::::::::::::::::::::::::::::")
-        print(self._llm.invoke(prompt).content)
-        return paragraph_index, None
+        cleaned_response_content = None
+        try:
+            print("::::::::::::::::::::::::::::")
+            response = self._llm.invoke(prompt)
+            cleaned_response_content = response.content # I will revisit this to parse and verify the JSON being return
+            logging.info("cleaned_up the response\n{cleaned_response_content}")
+        except Exception as e:
+            logging.error(f"Failed to analyse the revision due to {e}")
+        return paragraph_index, cleaned_response_content

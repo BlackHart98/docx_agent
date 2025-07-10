@@ -63,6 +63,7 @@ def main(argv: t.List[str]) -> int:
             match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
             for item in filtered_contract_meta:
                 paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx)
+                
             for idx in paragraph_to_body:
                 logging.info("::::::::::::::::::::::")
                 logging.info(paragraph_to_body[idx])

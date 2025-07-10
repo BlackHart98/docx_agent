@@ -14,7 +14,7 @@ import langchain as lc
 from operator import itemgetter
 
 from doc_parser import DocxParser
-from utils import get_paragragh_difflist, get_origin_paragraph, AppConfig, EditCategory
+from utils import get_paragragh_difflist, get_origin_paragraph, match_paragraphs, AppConfig, EditCategory, ParagraphMatch
 
 import hashlib # I don't think I'd keep this here too long
 
@@ -32,23 +32,6 @@ MODEL_CONTRACT_JSON_V1_SAMPLES = [
     "examples/contracts/model_contract_json_v1.json"
 ]
 
-
-
-# My very first approach: Assuming paragraph always appear in other, i.e., no paragraph swap
-# so for this I will rely on the order the paragraphs appear, lol not quite sure what I am doing here
-def match_paragraphs(
-    model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]]
-    , contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]]
-) -> t.List[t.Dict[str, str]]:
-    result = {}
-    sorted_model_contract_dict_v1 = sorted(model_contract_dict_v1, key=itemgetter('paragraph_index'), reverse=False)
-    sorted_contract_meta = sorted(contract_meta, key=itemgetter('paragraph_index'), reverse=False)
-    for idx in range(len(model_contract_dict_v1)):
-        if idx > len(contract_meta):
-            break
-        else:
-            result[sorted_model_contract_dict_v1[idx]["paragraph_index"]] = sorted_contract_meta[idx]["paragraph_index"]
-    return result
     
 
 def main(argv: t.List[str]) -> int:
@@ -58,14 +41,13 @@ def main(argv: t.List[str]) -> int:
         f.close()
     docx_parser: DocxParser = DocxParser()
     contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = docx_parser.get_paragraphs_with_comments(sample)
-    # logging.info(f"yepa!: {json.dumps(contract_meta)}")
     if contract_meta:
         if len(contract_meta) != 0:
             result = docx_parser.get_clause_revision_dict(contract_meta)
             temp_ = {item["paragraph_index"] : item for item in result}[15]
-            logging.info(f"{json.dumps(result)}")
-            logging.info(f"{match_paragraphs(model_contract_dict_v1, contract_meta)}")
-            pass
+            # logging.info(f"{json.dumps(result)}")
+            match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
+            logging.info(f"{match_list[0].origin_paragraph}")
     return 0
 
 

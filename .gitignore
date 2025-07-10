@@ -2,6 +2,6 @@ env/
 .env
 .app_data/
 **__pycache__/
-**.DS_Store/
+.DS_Store
 .app_data/file2.xml
 .gitattributes

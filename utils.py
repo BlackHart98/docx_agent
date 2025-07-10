@@ -1,5 +1,6 @@
 import typing as t
 import logging
+from operator import itemgetter
 from dataclasses import dataclass
 
 @dataclass
@@ -13,6 +14,13 @@ class EditCategory:
     INSERTION = "insertion"
     DELETION = "deletion"
     ORIGIN = "origin"
+
+
+
+@dataclass
+class ParagraphMatch:
+    origin_paragraph: t.Optional[t.Tuple[int, str, str]]
+    new_paragraph: t.Optional[t.Tuple[int, str, str]]
 
 
 # this is a simplisitic diffing to help me regenerate the original text (deprecated)
@@ -76,3 +84,31 @@ def get_origin_paragraph(paragraph_meta: t.Dict[str, t.Any]) -> t.Optional[t.Tup
 
 def extract_text_content(elem, tag_suffix, namespaces=AppConfig.DOCX_SCHEMA):
     return "".join(elem.xpath(f'.//w:{tag_suffix}/text()', namespaces=namespaces))
+
+
+
+
+# My very first approach: Assuming paragraph always appear in other, i.e., no paragraph swap
+# so for this I will rely on the order the paragraphs appear, lol not quite sure what I am doing here
+def match_paragraphs(
+    model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]], 
+    contract_meta: t.Optional[t.List[t.Dict[str, t.Any]]]
+) -> t.List[ParagraphMatch]:
+    result = []
+    sorted_model_contract_dict_v1 = sorted(model_contract_dict_v1, key=itemgetter('paragraph_index'), reverse=False)
+    sorted_contract_meta = sorted(contract_meta, key=itemgetter('paragraph_index'), reverse=False)
+    for idx in range(len(model_contract_dict_v1)):
+        if idx > len(contract_meta):
+            break
+        else:
+            result += [ParagraphMatch(
+                origin_paragraph=(
+                    sorted_model_contract_dict_v1[idx]["paragraph_index"], 
+                    sorted_model_contract_dict_v1[idx]["uuid"], 
+                    sorted_model_contract_dict_v1[idx]["paragraph"],), 
+                new_paragraph=(
+                    sorted_contract_meta[idx]["paragraph_index"], 
+                    sorted_contract_meta[idx]["uuid"],
+                    sorted_contract_meta[idx]["paragraph"],))]
+            
+    return result

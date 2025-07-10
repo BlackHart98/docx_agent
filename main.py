@@ -55,17 +55,14 @@ def main(argv: t.List[str]) -> int:
         if len(contract_meta) != 0:
             result = docx_parser.get_clause_revision_dict(contract_meta)
             match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
-            contract_meta_ = {item["paragraph_index"] : item for item in contract_meta}
             filtered_contract_meta = [item for item in contract_meta if len(item["comments"]) > 0 or len(item["track_changes"]) > 0]
-            # logging.info(f"{contract_meta_[match_list[0].origin_paragraph[0]]}")
-            logging.info(json.dumps(filtered_contract_meta))
             paragraph_to_body = {}
             match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
             for item in filtered_contract_meta:
                 paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx)
                 
             for idx in paragraph_to_body:
-                logging.info("::::::::::::::::::::::")
+                logging.info(f"paragraph: {idx} ::::::::::::::::::::::")
                 logging.info(paragraph_to_body[idx])
     return 0
 

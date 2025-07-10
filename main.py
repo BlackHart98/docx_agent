@@ -14,7 +14,16 @@ import langchain as lc
 from operator import itemgetter
 
 from doc_parser import DocxParser
-from utils import get_paragragh_difflist, get_origin_paragraph, match_paragraphs, AppConfig, EditCategory, ParagraphMatch
+from utils import (
+    get_paragragh_difflist, 
+    get_origin_paragraph, 
+    match_paragraphs,
+    get_prompt_body, 
+    AppConfig, 
+    EditCategory, 
+    ParagraphMatch, 
+    PromptBodyTemplate)
+from langchain_core.prompts import PromptTemplate
 
 import hashlib # I don't think I'd keep this here too long
 
@@ -32,6 +41,7 @@ MODEL_CONTRACT_JSON_V1_SAMPLES = [
     "examples/contracts/model_contract_json_v1.json"
 ]
 
+
     
 
 def main(argv: t.List[str]) -> int:
@@ -44,10 +54,18 @@ def main(argv: t.List[str]) -> int:
     if contract_meta:
         if len(contract_meta) != 0:
             result = docx_parser.get_clause_revision_dict(contract_meta)
-            temp_ = {item["paragraph_index"] : item for item in result}[15]
-            # logging.info(f"{json.dumps(result)}")
             match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
-            logging.info(f"{match_list[0].origin_paragraph}")
+            contract_meta_ = {item["paragraph_index"] : item for item in contract_meta}
+            filtered_contract_meta = [item for item in contract_meta if len(item["comments"]) > 0 or len(item["track_changes"]) > 0]
+            # logging.info(f"{contract_meta_[match_list[0].origin_paragraph[0]]}")
+            logging.info(json.dumps(filtered_contract_meta))
+            paragraph_to_body = {}
+            match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
+            for item in filtered_contract_meta:
+                paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx)
+            for idx in paragraph_to_body:
+                logging.info("::::::::::::::::::::::")
+                logging.info(paragraph_to_body[idx])
     return 0
 
 

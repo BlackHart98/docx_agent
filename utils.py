@@ -33,8 +33,6 @@ new clause:
 ---
 changes: 
 {}
-comments:
-{}
 """
 
     CHANGES_TEMPLATE:str = """
@@ -64,9 +62,9 @@ def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx
     comments_str: str = ""
     for comment in paragraph_meta["comments"]:
         comments_str += PromptBodyTemplate.COMMENT_TEMPLATE.format(
-            comment['type'], 
-            comment['content'], 
-            comment['author'])
+            comment['comment_date'],
+            comment['comment_author'],
+            comment['comment'],)
     track_changes_str: str = ""
     for track_change in paragraph_meta["track_changes"]:
         track_changes_str += PromptBodyTemplate.CHANGES_TEMPLATE.format(
@@ -74,11 +72,18 @@ def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx
             track_change['date'], 
             track_change['author'], 
             track_change['text'])
-    return PromptBodyTemplate.INPUT_PROMPT_TEMPLATE.format(
-        origin_clause, 
-        paragraph_meta["paragraph"], 
-        track_changes_str, 
-        comments_str)
+    if comments_str.strip() == "":
+        return PromptBodyTemplate.INPUT_PROMPT_TEMPLATE.format(
+            origin_clause, 
+            paragraph_meta["paragraph"], 
+            track_changes_str, 
+            comments_str.strip())  
+    else: 
+        return PromptBodyTemplate.INPUT_PROMPT_TEMPLATE.format(
+            origin_clause, 
+            paragraph_meta["paragraph"], 
+            track_changes_str, 
+            "comment:\n" + comments_str)
         
 
 
@@ -157,7 +162,7 @@ def match_paragraphs(
     sorted_model_contract_dict_v1 = sorted(model_contract_dict_v1, key=itemgetter('paragraph_index'), reverse=False)
     sorted_contract_meta = sorted(contract_meta, key=itemgetter('paragraph_index'), reverse=False)
     for idx in range(len(model_contract_dict_v1)):
-        if idx > len(contract_meta):
+        if idx >= len(contract_meta):
             break
         else:
             result += [ParagraphMatch(

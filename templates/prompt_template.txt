@@ -1,0 +1,28 @@
+original clause:
+{{ original_clause }}
+
+new clause:
+{{ new_clause }}
+
+--- 
+{% if track_changes|length > 0 %}
+changes:
+{% for item in track_changes %}
+
+type: {{ item.type }}
+date: {{ item.date }}
+author: {{ item.author }}
+content: {{ item.text }}
+___
+{% endfor %}
+{% endif %}
+
+{% if comments|length > 0 %}
+comments
+{% for item in comments %}
+date: {{ item.comment_date }}
+content: {{ item.comment_author }}
+author: {{ item.comment }}
+___
+{% endfor %}
+{% endif %}

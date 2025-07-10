@@ -1,19 +1,30 @@
+import json
 from enum import Enum
+import random
 import typing as t
 import logging
 from operator import itemgetter
 from dataclasses import dataclass
 from langchain_mistralai import ChatMistralAI
+from jinja2 import Environment, FileSystemLoader, Template
+
 
 class AppConfig: # I can't think of a better name
     CLAUSE_HASH_PREFIX = "contract_clause"
     DOCX_SCHEMA = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
+    DEFAULT_RETRY_COUNT = 5
+    DEFAULT_DELAY_SECONDS = 2.0
+    DEFAULT_LAG_MAX_SECONDS = 0.5  
 
 
-class EditCategory(Enum):
+class EditCategory:
     INSERTION = "insertion"
     DELETION = "deletion"
     ORIGIN = "origin"
+
+
+class HTTPErrorMessage:
+    SERVICE_EXCEEDED_ERROR = "429"
 
 
 
@@ -105,7 +116,22 @@ def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx
             paragraph_meta["paragraph"], 
             track_changes_str, 
             "comment:\n" + comments_str)
-        
+
+
+def get_prompt_body_v2(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str], template: Template) -> str:
+    origin_clause = match_indexed_by_new_idx[paragraph_meta["paragraph_index"]]
+    # environment = Environment(loader=FileSystemLoader("templates/")) # I will move this out
+    # template = environment.get_template('prompt_template.txt')
+    result = {
+        "origin_clause" : origin_clause,
+        "new_clause" : paragraph_meta["paragraph"],
+        "track_changes" : paragraph_meta["track_changes"],
+        "comments" : paragraph_meta["comments"], 
+    }
+    return template.render(result)
+    
+    
+     
 
 
 # this is a simplisitic diffing to help me regenerate the original text (deprecated)
@@ -197,3 +223,21 @@ def match_paragraphs(
                     sorted_contract_meta[idx]["paragraph"],))]
             
     return result
+
+
+def get_asym_sleep_time(attempt, base_delay, lag_max) -> float:
+    lag_rnd = random.uniform(0, lag_max)
+    return (base_delay * (2 ** (attempt - 1))) + lag_rnd
+
+
+def clean_up_json(dirty_json_response: str) -> t.Optional[str]:
+    removed_ticks = dirty_json_response.strip("`")
+    json_prefix: str = "json"
+    result = removed_ticks
+    for x in json_prefix:
+        result = result.strip(x)
+    try:
+        result_dict = json.loads(result)
+        return result_dict
+    except:
+        return None

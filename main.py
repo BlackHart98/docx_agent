@@ -18,13 +18,16 @@ from utils import (
     get_paragragh_difflist, 
     get_origin_paragraph, 
     match_paragraphs,
-    get_prompt_body, 
+    get_prompt_body,
+    get_prompt_body_v2, 
     AppConfig, 
     EditCategory, 
     ParagraphMatch, 
     PromptBodyTemplate)
 from langchain_core.prompts import PromptTemplate
 from ai_agent import DocxAIAgent
+from jinja2 import Environment, FileSystemLoader
+
 
 import hashlib # I don't think I'd keep this here too long
 
@@ -50,8 +53,10 @@ def main(argv: t.List[str]) -> int:
     with open(MODEL_CONTRACT_JSON_V1_SAMPLES[0], "r") as f:
         model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
         f.close()
+    environment = Environment(loader=FileSystemLoader("templates/"))
     docx_parser: DocxParser = DocxParser()
-    ai_agent: DocxAIAgent = DocxAIAgent() 
+    ai_agent: DocxAIAgent = DocxAIAgent()
+    template = environment.get_template('prompt_template.txt')
     contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = docx_parser.get_paragraphs_with_comments(sample)
     if contract_meta:
         if len(contract_meta) != 0:
@@ -61,12 +66,12 @@ def main(argv: t.List[str]) -> int:
             paragraph_to_body = {}
             match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
             for item in filtered_contract_meta:
-                paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx)
+                paragraph_to_body[item["paragraph_index"]] = get_prompt_body_v2(item, match_indexed_by_new_idx, template)
             
             for idx in paragraph_to_body:
                 logging.info(f"paragraph: {idx} ::::::::::::::::::::::")
                 # logging.info(paragraph_to_body[idx])
-                logging.info(ai_agent.get_revision_analysis(idx, paragraph_to_body[idx]))
+                logging.info(ai_agent.get_revision_analysis(idx, paragraph_to_body[idx], base_delay=4, retry_count=5))
                 logging.info(f"+++++++++++++++++++++++++++++++++++++++")
     return 0
 

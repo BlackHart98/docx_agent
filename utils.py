@@ -21,6 +21,7 @@ class ParagraphMatch:
     new_paragraph: t.Optional[t.Tuple[int, str, str]]
 
 
+
 class PromptBodyTemplate:
     INPUT_PROMPT_TEMPLATE:str = """
 original clause:
@@ -50,6 +51,13 @@ content: {}
 author: {}
 ___
 """
+    AI_ROLE_TEMPLATE: str = """"""
+
+
+class AIModel:
+    OPENAI_GPT_4 = ""
+    MISTRAL_LARGE_LATEST = "mistral-large-latest"
+
 
 def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str]) -> str:
     origin_clause = match_indexed_by_new_idx[paragraph_meta["paragraph_index"]]

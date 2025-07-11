@@ -1,7 +1,7 @@
 import os
 import typing as t
 import logging
-from utils import AIModel, PromptBodyTemplate, HTTPErrorMessage, AppConfig, get_asym_sleep_time, clean_up_json
+from utils import AIModel, HTTPErrorMessage, AppConfig, get_asym_sleep_time, clean_up_json
 from dotenv import load_dotenv, find_dotenv
 from jinja2 import Environment, FileSystemLoader, Template
 
@@ -56,7 +56,7 @@ class DocxAIAgent:
         retry_count:int=AppConfig.DEFAULT_RETRY_COUNT,
         base_delay:float=AppConfig.DEFAULT_DELAY_SECONDS,
         lag_max:float=AppConfig.DEFAULT_LAG_MAX_SECONDS,
-    ) -> t.Tuple[int, t.Optional[t.Dict[str, t.Any]]]:
+    ) -> t.Tuple[int, t.Optional[t.Dict[str, t.Any]], str]:
         prompt_template = ChatPromptTemplate.from_messages([
             self._system_role,
             ("user", "{body}")
@@ -68,7 +68,7 @@ class DocxAIAgent:
                 print("::::::::::::::::::::::::::::")
                 response = self._llm.invoke(prompt)
                 cleaned_response_content: t.Optional[str] = clean_up_json(response.content, self._revision_schema)
-                return paragraph_index, cleaned_response_content
+                return paragraph_index, cleaned_response_content, body
             except HTTPStatusError as e:
                 logging.error(f"Failed to analyse the revision due to {e}.")
                 if retry_count <= i: 
@@ -79,4 +79,4 @@ class DocxAIAgent:
             except Exception as e:   
                 logging.error(f"Failed to analyse the revision due to {e}")
                 raise
-        return paragraph_index, cleaned_response_content
+        return paragraph_index, cleaned_response_content, body

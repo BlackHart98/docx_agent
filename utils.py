@@ -34,91 +34,13 @@ class ParagraphMatch:
     new_paragraph: t.Optional[t.Tuple[int, str, str]]
 
 
-
-class PromptBodyTemplate:
-    INPUT_PROMPT_TEMPLATE:str = """
-original clause:
-{}
-
-new clause:
-{}
-
----
-changes: 
-{}
-"""
-
-    CHANGES_TEMPLATE:str = """
-type: {}
-date: {}
-author: {}
-content: {}
-___
-"""
-
-    COMMENT_TEMPLATE:str = """
-date: {}
-content: {}
-author: {}
-___
-"""
-    AI_ROLE_TEMPLATE: str = """
-You are a legal analyst reviewing a proposed change to a contract clause.
-The vendor has proposed the following revision:
-
-Your task is to analyze the revision and return a structured JSON object with the following fields:
-
-1. analysis_summary – a clear, one-paragraph summary of what the vendor is attempting to achieve with this revision. Explain in plain legal English.
-2. risk_assessment – classify the level of risk this change introduces to the client, using one of:
-    - L for Low Risk
-    - M for Medium Risk
-    - H for High Risk
-3. recommended_action – based on the risk and intent, recommend a course of action:
-    - A for Accept the change
-    - R for Reject the change outright
-    - P for Propose a modification or counter-offer
-4. suggested_response – if the recommended action is R (Reject) or P (Propose Modification), draft a short, professional response explaining why the revision is unacceptable as written and, if applicable, suggesting alternative language. Use clear and formal legal language.
-
-If the recommended action is A (Accept), simply set suggested_response to an empty string "".
-"""
-
-
 # list of supported ai models, I just need it form enums lol
 class AIModel:
     OPENAI_GPT_4 = ""
     MISTRAL_LARGE_LATEST = "mistral-large-latest"
 
 
-def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str]) -> str:
-    origin_clause = match_indexed_by_new_idx[paragraph_meta["paragraph_index"]]
-    comments_str: str = ""
-    for comment in paragraph_meta["comments"]:
-        comments_str += PromptBodyTemplate.COMMENT_TEMPLATE.format(
-            comment['comment_date'],
-            comment['comment_author'],
-            comment['comment'],)
-    track_changes_str: str = ""
-    for track_change in paragraph_meta["track_changes"]:
-        track_changes_str += PromptBodyTemplate.CHANGES_TEMPLATE.format(
-            track_change['type'], 
-            track_change['date'], 
-            track_change['author'], 
-            track_change['text'])
-    if comments_str.strip() == "":
-        return PromptBodyTemplate.INPUT_PROMPT_TEMPLATE.format(
-            origin_clause, 
-            paragraph_meta["paragraph"], 
-            track_changes_str, 
-            comments_str.strip())  
-    else: 
-        return PromptBodyTemplate.INPUT_PROMPT_TEMPLATE.format(
-            origin_clause, 
-            paragraph_meta["paragraph"], 
-            track_changes_str, 
-            "comment:\n" + comments_str)
-
-
-def get_prompt_body_v2(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str], template: Template) -> str:
+def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str], template: Template) -> str:
     origin_clause = match_indexed_by_new_idx[paragraph_meta["paragraph_index"]]
     # environment = Environment(loader=FileSystemLoader("templates/")) # I will move this out
     # template = environment.get_template('prompt_template.txt')

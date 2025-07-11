@@ -10,8 +10,8 @@ from lxml import etree
 import subprocess
 import xmlformatter
 from docx.oxml.ns import qn
-import langchain as lc
 from operator import itemgetter
+import asyncio
 
 from doc_parser import DocxParser
 from utils import (
@@ -19,11 +19,10 @@ from utils import (
     get_origin_paragraph, 
     match_paragraphs,
     get_prompt_body,
-    get_prompt_body_v2, 
+    # get_prompt_body_v2, 
     AppConfig, 
     EditCategory, 
-    ParagraphMatch, 
-    PromptBodyTemplate)
+    ParagraphMatch,)
 from langchain_core.prompts import PromptTemplate
 from ai_agent import DocxAIAgent
 from jinja2 import Environment, FileSystemLoader
@@ -48,7 +47,7 @@ MODEL_CONTRACT_JSON_V1_SAMPLES = [
 
     
 
-def main(argv: t.List[str]) -> int:
+async def main(argv: t.List[str]) -> int:
     sample: str = LIST_OF_SAMPLE_DOCX[6]
     with open(MODEL_CONTRACT_JSON_V1_SAMPLES[0], "r") as f:
         model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
@@ -66,12 +65,12 @@ def main(argv: t.List[str]) -> int:
             paragraph_to_body = {}
             match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
             for item in filtered_contract_meta:
-                paragraph_to_body[item["paragraph_index"]] = get_prompt_body_v2(item, match_indexed_by_new_idx, template)
+                paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx, template)
             
             for idx in paragraph_to_body:
                 logging.info(f"paragraph: {idx} ::::::::::::::::::::::")
                 # logging.info(paragraph_to_body[idx])
-                _, revision_analysis = ai_agent.get_revision_analysis(idx, paragraph_to_body[idx], base_delay=4, retry_count=5)
+                _, revision_analysis, _ = ai_agent.get_revision_analysis(idx, paragraph_to_body[idx], base_delay=4, retry_count=5)
                 logging.info(revision_analysis)
                 logging.info(f"+++++++++++++++++++++++++++++++++++++++")
     return 0
@@ -84,4 +83,4 @@ if __name__ == "__main__":
         datefmt="%Y-%m-%d %H:%M:%S",
         level=logging.INFO
     )
-    main(sys.argv)
+    asyncio.run(main(sys.argv))

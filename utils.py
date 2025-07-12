@@ -53,9 +53,6 @@ def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx
     }
     return template.render(result)
     
-    
-     
-
 
 # this is a simplisitic diffing to help me regenerate the original text (deprecated)
 def get_paragragh_difflist(paragraph_meta: t.Dict[str, t.Any]) -> t.Optional[t.Tuple[int, t.List[t.Tuple[str, str]]]]:

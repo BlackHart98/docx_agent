@@ -28,8 +28,53 @@ class DocxAnalyzer:
         self._docx_parser: DocxParser = DocxParser()
         self._ai_agent: DocxAIAgent = DocxAIAgent(self._role_template)
 
-        
-    async def aget_revision(self, docx_file_path: str, model_contract_v1_path: str) -> t.List[t.Dict[int, t.Any]]:
+    def get_revision(
+        self, 
+        docx_file_path: str, 
+        model_contract_v1_path: str, 
+        retry_count:int=AppConfig.DEFAULT_RETRY_COUNT,
+        base_delay:float=AppConfig.DEFAULT_DELAY_SECONDS,
+        lag_max:float=AppConfig.DEFAULT_LAG_MAX_SECONDS
+    ) -> t.List[t.Dict[str, t.Any]]:
+        with open(model_contract_v1_path, "r") as f:
+            model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
+            f.close()
+        contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = self._docx_parser.get_paragraphs_with_comments(docx_file_path)
+        result_analysis_list = []
+        if contract_meta:
+            if len(contract_meta) != 0:
+                result_analysis_dict = {}
+                result = self._docx_parser.get_clause_revision_dict(contract_meta)
+                match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
+                filtered_contract_meta = [item for item in contract_meta if len(item["comments"]) > 0 or len(item["track_changes"]) > 0]
+                paragraph_to_body = {}
+                match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
+                for item in filtered_contract_meta:
+                    paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx, self._prompt_template)
+                
+                for idx in paragraph_to_body:
+                    index, revision_analysis, _ = self._ai_agent.get_revision_analysis(
+                        idx, 
+                        paragraph_to_body[idx], 
+                        base_delay=base_delay, 
+                        retry_count=retry_count, 
+                        lag_max=lag_max)
+                    result_analysis_dict[index] = revision_analysis
+                result_analysis_list = [{"paragraph_index":index, "revision_analysis":result_analysis_dict[index]} for index in result_analysis_dict]
+        return [{
+            "docx_file_path": docx_file_path, 
+            "model_contract_v1": model_contract_v1_path, 
+            "analysis" : result_analysis_list}] 
+    
+    
+    async def aget_revision(
+        self, 
+        docx_file_path: str, 
+        model_contract_v1_path: str, 
+        retry_count:int=AppConfig.DEFAULT_RETRY_COUNT,
+        base_delay:float=AppConfig.DEFAULT_DELAY_SECONDS,
+        lag_max:float=AppConfig.DEFAULT_LAG_MAX_SECONDS
+    ) -> t.List[t.Dict[int, t.Any]]:
         with open(model_contract_v1_path, "r") as f:
             model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
             f.close()
@@ -46,7 +91,12 @@ class DocxAnalyzer:
                 for item in filtered_contract_meta:
                     paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx, self._prompt_template)
 
-                analyze_paragraphs:t.List[t.Any] = [self._ai_agent.aget_revision_analysis(idx, paragraph_to_body[idx]) for idx in paragraph_to_body]
+                analyze_paragraphs:t.List[t.Any] = [self._ai_agent.aget_revision_analysis(
+                    idx, 
+                    paragraph_to_body[idx], 
+                    base_delay=base_delay, 
+                    retry_count=retry_count, 
+                    lag_max=lag_max) for idx in paragraph_to_body]
                 result_tuple_list = await asyncio.gather(*analyze_paragraphs)
                 result_analysis_dict = {index : revision_analysis for index, revision_analysis, _ in result_tuple_list}
                 result_analysis_list = [{"paragraph_index":index, "revision_analysis":result_analysis_dict[index]} for index in result_analysis_dict]

@@ -28,7 +28,7 @@ async def main(argv: t.List[str]) -> int:
     sample: str = LIST_OF_SAMPLE_DOCX[6]
     model_contract_v1 = MODEL_CONTRACT_JSON_V1_SAMPLES[0]
     revision_module = DocxAnalyzer() 
-    results = await revision_module.aget_revision(sample, model_contract_v1)
+    results = await revision_module.aget_revision(sample, model_contract_v1, base_delay=1)
     with open("my_revision.json", "w") as f:
         f.write(json.dumps(results, indent=4))
         f.close()

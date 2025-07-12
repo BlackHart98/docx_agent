@@ -241,30 +241,3 @@ class DocxParser:
                 match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
                 return RevisionSummary(contract_meta=contract_meta, revision=result, match_list=match_list, model_contract_dict_v1=model_contract_dict_v1)
         return None
-    
-    
-    
-    # result_analysis_dict = {}
-    #             result = self._docx_parser.get_clause_revision_dict(contract_meta)
-    #             match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
-    #             filtered_contract_meta = [item for item in contract_meta if len(item["comments"]) > 0 or len(item["track_changes"]) > 0]
-    #             paragraph_to_body = {}
-    #             match_indexed_by_new_idx = {item.new_paragraph[0] : item.origin_paragraph[2] for item in match_list}
-    #             match_dict = {item.new_paragraph[0] : item for item in match_list}
-    #             for item in filtered_contract_meta:
-    #                 paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx, self._prompt_template)
-
-    #             analyze_paragraphs:t.List[t.Any] = [self._ai_agent.aget_revision_analysis(
-    #                 idx, 
-    #                 paragraph_to_body[idx], 
-    #                 base_delay=base_delay, 
-    #                 retry_count=retry_count, 
-    #                 lag_max=lag_max) for idx in paragraph_to_body]
-    #             result_tuple_list = await asyncio.gather(*analyze_paragraphs)
-    #             result_analysis_dict = {index : revision_analysis for index, revision_analysis, _ in result_tuple_list}
-    #             result_analysis_list = [{
-    #                 "paragraph_index":index, 
-    #                 "revision_analysis":result_analysis_dict[index], 
-    #                 # "origin_paragraph": match_dict[index].origin_paragraph[2],
-    #                 # "new_paragraph": match_dict[index].new_paragraph[2],
-    #                 "uuid": match_dict[index].new_paragraph[1],} for index in result_analysis_dict]

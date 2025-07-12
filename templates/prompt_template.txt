@@ -1,5 +1,5 @@
 original clause:
-{{ original_clause }}
+{{ origin_clause }}
 
 new clause:
 {{ new_clause }}

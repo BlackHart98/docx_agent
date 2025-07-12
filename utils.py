@@ -14,7 +14,10 @@ class AppConfig: # I can't think of a better name
     DOCX_SCHEMA = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
     DEFAULT_RETRY_COUNT = 5
     DEFAULT_DELAY_SECONDS = 2.0
-    DEFAULT_LAG_MAX_SECONDS = 0.5  
+    DEFAULT_LAG_MAX_SECONDS = 0.5 
+    TEMPLATE_PATH = "templates/" 
+    PROMPT_TEMPLATE_FILE = "prompt_template.txt"
+    ROLE_TEMPLATE_FILE = "role_template.txt"
 
 
 class EditCategory:
@@ -42,8 +45,6 @@ class AIModel:
 
 def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str], template: Template) -> str:
     origin_clause = match_indexed_by_new_idx[paragraph_meta["paragraph_index"]]
-    # environment = Environment(loader=FileSystemLoader("templates/")) # I will move this out
-    # template = environment.get_template('prompt_template.txt')
     result = {
         "origin_clause" : origin_clause,
         "new_clause" : paragraph_meta["paragraph"],
@@ -121,7 +122,7 @@ def extract_text_content(elem, tag_suffix, namespaces=AppConfig.DOCX_SCHEMA):
 
 
 
-# My very first approach: Assuming paragraph always appear in other, i.e., no paragraph swap
+# My very first approach: Assuming paragraph always appear in order, i.e., no paragraph swap or removal
 # so for this I will rely on the order the paragraphs appear, lol not quite sure what I am doing here
 def match_paragraphs(
     model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]], 

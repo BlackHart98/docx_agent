@@ -5,3 +5,4 @@ env/
 .DS_Store
 .app_data/file2.xml
 .gitattributes
+my_revision.json

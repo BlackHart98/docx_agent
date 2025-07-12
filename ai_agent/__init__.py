@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 import time
 
 from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
-from langchain.chat_models import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain_mistralai import ChatMistralAI
 from pydantic import BaseModel
 

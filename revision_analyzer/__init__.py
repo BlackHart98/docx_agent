@@ -1,28 +1,14 @@
 import json
-import os
-import sys
 import typing as t
-from docx import Document
-import zipfile
 import logging
-from difflib import *
-from lxml import etree
-import subprocess
-import xmlformatter
-from docx.oxml.ns import qn
-from operator import itemgetter
 import asyncio
 
 from doc_parser import DocxParser
 from utils import (
-    get_paragragh_difflist, 
-    get_origin_paragraph, 
     match_paragraphs,
     get_prompt_body,
     AppConfig, 
-    EditCategory, 
     ParagraphMatch,)
-from langchain_core.prompts import PromptTemplate
 from ai_agent import DocxAIAgent
 from jinja2 import Environment, FileSystemLoader, Template
 
@@ -65,14 +51,15 @@ class DocxAnalyzer:
         return [result_analysis_dict]
     
     
-    async def aget_revision(self, docx_file_path: str, model_contract_v1_path: str):
+    async def aget_revision(self, docx_file_path: str, model_contract_v1_path: str) -> t.List[t.Dict[int, t.Any]]:
         with open(model_contract_v1_path, "r") as f:
             model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
             f.close()
         contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = self._docx_parser.get_paragraphs_with_comments(docx_file_path)
-        result_analysis_dict = {}
+        result_analysis_list = []
         if contract_meta:
             if len(contract_meta) != 0:
+                result_analysis_dict = {}
                 result = self._docx_parser.get_clause_revision_dict(contract_meta)
                 match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
                 filtered_contract_meta = [item for item in contract_meta if len(item["comments"]) > 0 or len(item["track_changes"]) > 0]
@@ -81,8 +68,11 @@ class DocxAnalyzer:
                 for item in filtered_contract_meta:
                     paragraph_to_body[item["paragraph_index"]] = get_prompt_body(item, match_indexed_by_new_idx, self._prompt_template)
 
-                corountine_list:t.List[t.Any] = [self._ai_agent.aget_revision_analysis(idx, paragraph_to_body[idx]) for idx in paragraph_to_body]
-                result_tuple_list = await asyncio.gather(*corountine_list, return_exceptions=True)
+                analyze_paragraphs:t.List[t.Any] = [self._ai_agent.aget_revision_analysis(idx, paragraph_to_body[idx]) for idx in paragraph_to_body]
+                result_tuple_list = await asyncio.gather(*analyze_paragraphs)
                 result_analysis_dict = {index : revision_analysis for index, revision_analysis, _ in result_tuple_list}
-                
-        return [result_analysis_dict]
+                result_analysis_list = [{"paragraph_index":index, "revision_analysis":result_analysis_dict[index]} for index in result_analysis_dict]
+        return [{
+            "docx_file_path": docx_file_path, 
+            "model_contract_v1": model_contract_v1_path, 
+            "analysis" : result_analysis_list}]

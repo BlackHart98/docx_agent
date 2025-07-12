@@ -4,8 +4,8 @@ import sys
 import typing as t
 import logging
 import asyncio
-from revision_analyzer import DocxAnalyzer
-from doc_parser import DocxParser
+from lib.revision_analyzer import DocxAnalyzer
+from lib.doc_parser import DocxParser
 
 
 # for quick testing

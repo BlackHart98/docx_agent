@@ -3,14 +3,14 @@ import typing as t
 import logging
 import asyncio
 
-from doc_parser import DocxParser
+from lib.doc_parser import DocxParser
 from utils import (
     match_paragraphs,
     get_prompt_body,
     AppConfig, 
     ParagraphMatch,
     RevisionSummary,)
-from ai_agent import DocxAIAgent
+from lib.ai_agent import DocxAIAgent
 from jinja2 import Environment, FileSystemLoader, Template
 
 # This class is redundant

@@ -43,6 +43,14 @@ class AIModel:
     MISTRAL_LARGE_LATEST = "mistral-large-latest"
 
 
+@dataclass
+class RevisionSummary:
+    contract_meta : t.List[t.Dict[str, t.Any]]
+    revision: t.List[t.Dict[str, t.Any]]
+    match_list: t.List[ParagraphMatch]
+    model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]]
+
+
 def get_prompt_body(paragraph_meta: t.Dict[str, t.Any], match_indexed_by_new_idx: t.Dict[int, str], template: Template) -> str:
     origin_clause = match_indexed_by_new_idx[paragraph_meta["paragraph_index"]]
     result = {

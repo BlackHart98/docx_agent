@@ -1,3 +1,4 @@
+import aiohttp
 import json
 import os
 import sys
@@ -6,6 +7,7 @@ import logging
 import asyncio
 from lib.revision_analyzer import DocxAnalyzer
 from lib.doc_parser import DocxParser
+from fastapi import FastAPI
 
 
 # for quick testing
@@ -23,27 +25,25 @@ MODEL_CONTRACT_JSON_V1_SAMPLES = [
 ]
 
 
-    
-
-async def main(argv: t.List[str]) -> int:
-    sample: str = LIST_OF_SAMPLE_DOCX[6]
-    model_contract_v1 = MODEL_CONTRACT_JSON_V1_SAMPLES[0]
-    revision = DocxParser().get_revision_summary(model_contract_v1, sample)
-    if revision: 
-        revision_analyzer = DocxAnalyzer() 
-        results = await revision_analyzer.aget_revision(revision, base_delay=1)
-        with open("my_revision.json", "w") as f:
-            f.write(json.dumps(results, indent=4))
-            f.close()
-         
-    return 0
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    logging.basicConfig(
-        format="{asctime} - {levelname} - {message}",
-        style="{",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        level=logging.INFO
-    )
-    asyncio.run(main(sys.argv))
+@app.get("/api")
+async def root():
+    return {"message" : "My API home"}
+
+
+@app.post("/api/upload_docx")
+async def root():
+    return {"message" : "My API index"}
+
+
+@app.get("/api/revision_analysis/{file_id}")
+async def get_revision_summary():
+    # sample: str = LIST_OF_SAMPLE_DOCX[6]
+    # model_contract_v1 = MODEL_CONTRACT_JSON_V1_SAMPLES[0]
+    # revision = DocxParser().get_revision_summary(model_contract_v1, sample)
+    # if revision: 
+    #     revision_analyzer = DocxAnalyzer() 
+    #     results = await revision_analyzer.aget_revision(revision, base_delay=1)
+    return {"message": ""}

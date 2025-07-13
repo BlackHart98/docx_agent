@@ -5,7 +5,6 @@ import asyncio
 
 from lib.doc_parser import DocxParser
 from utils import (
-    match_paragraphs,
     get_prompt_body,
     AppConfig, 
     ParagraphMatch,
@@ -53,8 +52,8 @@ class DocxAnalyzer:
                     base_delay=base_delay, 
                     retry_count=retry_count, 
                     lag_max=lag_max) for idx in paragraph_to_body]
-                result_tuple_list = await asyncio.gather(*analyze_paragraphs)
-                result_analysis_dict = {index : revision_analysis for index, revision_analysis, _ in result_tuple_list}
+                result_tuple_list: t.List[t.Tuple[int, str, str]] = await asyncio.gather(*analyze_paragraphs)
+                result_analysis_dict = {index : revision_analysis for index, revision_analysis, _ in result_tuple_list if revision_analysis}
                 result_analysis_list = [{
                     "paragraph_index":index, 
                     "revision_analysis":result_analysis_dict[index],

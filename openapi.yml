@@ -1,0 +1,18 @@
+openapi: 3.1.0
+
+info:
+  title: DOCX Agent
+  summary: AI agent API for the assessment of DOCX legal contract using track changes and comments
+  description: Docx_agent parses legal contracts `.docx` file gets track changes and comments, then returns a revision analysis
+  version: 0.0.1
+  contact:
+    name: Pius Arhanbhunde
+    email: piusarhanise@gmail.com
+
+paths:
+  /api:
+  /api/upload_docx:
+  /api/revision_analysis/{file_id}:
+
+components:
+

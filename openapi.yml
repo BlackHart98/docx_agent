@@ -2,8 +2,10 @@ openapi: 3.1.0
 
 info:
   title: DOCX Agent
-  summary: AI agent API for the assessment of DOCX legal contract using track changes and comments
-  description: Docx_agent parses legal contracts `.docx` file gets track changes and comments, then returns a revision analysis
+  summary: AI agent API for the assessment of DOCX legal contracts using tracked changes and comments
+  description: |
+    `docx_agent` parses legal `.docx` contract files to extract tracked changes and comments,
+    then performs an AI-assisted revision analysis highlighting intent and risks.
   version: 0.0.1
   contact:
     name: Pius Arhanbhunde
@@ -11,8 +13,172 @@ info:
 
 paths:
   /api:
+    get:
+      summary: Health check endpoint
+      description: Basic endpoint to verify if the DOCX Agent API is alive and reachable.
+      responses:
+        '200':
+          description: Server is up and running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResponse'
+
   /api/upload_docx:
-  /api/revision_analysis/{file_id}:
+    put:
+      summary: Upload a DOCX contract for analysis
+      description: Upload a legal `.docx` file to be parsed for tracked changes and comments.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The `.docx` contract file to upload
+      responses:
+        '200':
+          description: DOCX file uploaded and parsed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadResponse'
+
+  /api/docx/{file_id}:
+    get:
+      summary: Retrieve tracked changes and comments
+      description: Return the raw tracked changes and comments extracted from the specified file.
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          description: The ID of the uploaded file to retrieve tracked changes for.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Raw tracked changes and comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackedChangesResponse'
+
+  /api/docx/{file_id}/revision_analysis:
+    get:
+      summary: Analyze a DOCX contract for revision intent and risk
+      description: Return an AI-powered analysis of tracked changes and comments, highlighting intent, risks, and recommended actions.
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          description: The ID of the uploaded file to analyze.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Revision analysis generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RevisionAnalysisResponse'
 
 components:
+  schemas:
 
+    HealthCheckResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "ok"
+          description: Health status indicator.
+
+    UploadResponse:
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: Unique identifier of the uploaded file.
+        message:
+          type: string
+          example: "File uploaded and processed successfully"
+          description: Human-readable upload result message.
+
+    TrackedChangesResponse:
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: Unique identifier of the uploaded file.
+        tracked_changes:
+          type: array
+          description: List of tracked changes and comments found in the document.
+          items:
+            $ref: '#/components/schemas/TrackedChange'
+
+    RevisionAnalysisResponse:
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: Unique identifier of the analyzed file.
+        paragraph_analyses:
+          type: array
+          description: Analysis of each paragraph’s tracked changes and comments.
+          items:
+            $ref: '#/components/schemas/ParagraphAnalysisResponse'
+
+    ParagraphAnalysisResponse:
+      type: object
+      properties:
+        paragraph_index:
+          type: integer
+          description: Index of the paragraph in the document.
+        analysis_summary:
+          type: string
+          description: A natural language summary of the intent of the changes.
+          example: |
+            The vendor is attempting to shift risk by removing clauses about equitable adjustments due to changes in the Statement of Work.
+        risk_assessment:
+          type: string
+          enum: [L, M, H]
+          description: Risk assessment level: Low (L), Medium (M), or High (H).
+          example: H
+        recommended_action:
+          type: string
+          enum: [A, R, P]
+          description: Recommended action: Accept (A), Reject (R), or Propose alternative (P).
+          example: R
+        suggested_response:
+          type: string
+          description: Suggested response text to communicate to the vendor.
+          example: |
+            We appreciate your proposed revision to the contract clause. However, we must reject the changes as they significantly reduce our ability to manage the contract effectively. Specifically, the removal of our right to terminate the contract and the provisions addressing the impact of changes on already delivered services, as well as the process for equitable adjustments, are unacceptable. Please reinstate the original provisions to ensure a balanced and fair agreement.
+
+    TrackedChange:
+      type: object
+      properties:
+        change_type:
+          type: string
+          enum: [insertion, deletion]
+          description: The type of tracked change.
+        location:
+          type: string
+          description: Location of the change in the document.
+          example: "Section 4.2 - Deliverables"
+        text:
+          type: string
+          description: The text of the tracked change.
+          example: "The Contractor shall deliver the service within 30 days."
+        author:
+          type: string
+          description: The author who made the change, if available.
+          example: "John Doe"
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp when the change was made, if available.
+          example: "2025-07-13T10:45:00Z"

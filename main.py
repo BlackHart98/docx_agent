@@ -33,12 +33,23 @@ async def root():
     return {"message" : "My API home"}
 
 
-@app.post("/api/upload_docx")
-async def root():
+@app.put("/api/upload_docx")
+async def upload_docx():
     return {"message" : "My API index"}
 
 
-@app.get("/api/revision_analysis/{file_id}")
+@app.get("/api/docx/{file_id}")
+async def get_revision_summary():
+    # sample: str = LIST_OF_SAMPLE_DOCX[6]
+    # model_contract_v1 = MODEL_CONTRACT_JSON_V1_SAMPLES[0]
+    # revision = DocxParser().get_revision_summary(model_contract_v1, sample)
+    # if revision: 
+    #     revision_analyzer = DocxAnalyzer() 
+    #     results = await revision_analyzer.aget_revision(revision, base_delay=1)
+    return {"message": ""}
+
+
+@app.get("/api/docx/{file_id}/revision_analysis")
 async def get_revision_summary():
     # sample: str = LIST_OF_SAMPLE_DOCX[6]
     # model_contract_v1 = MODEL_CONTRACT_JSON_V1_SAMPLES[0]

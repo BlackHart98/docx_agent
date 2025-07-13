@@ -5,8 +5,11 @@ import sys
 import typing as t
 import logging
 import asyncio
-from lib.revision_analyzer import DocxAnalyzer
-from lib.doc_parser import DocxParser
+from lib import (
+    DocxAnalyzer, 
+    DocxParser, 
+    AnalysisResponse,
+    SummaryResponse,)
 from fastapi import FastAPI
 
 

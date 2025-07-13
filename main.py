@@ -9,7 +9,9 @@ from lib import (
     DocxAnalyzer, 
     DocxParser, 
     AnalysisResponse,
-    SummaryResponse,)
+    SummaryResponse,
+    UploadDocxResponse,
+    IndexResponse,)
 from fastapi import FastAPI
 
 
@@ -33,23 +35,20 @@ app = FastAPI()
 
 @app.get("/api")
 async def root():
-    return {"message" : "My API home"}
+    response_sample = IndexResponse()
+    return response_sample.model_dump()
 
 
 @app.put("/api/upload_docx")
 async def upload_docx():
-    return {"message" : "My API index"}
+    response_sample = UploadDocxResponse()
+    return response_sample.model_dump()
 
 
 @app.get("/api/docx/{file_id}")
 async def get_revision_summary():
-    # sample: str = LIST_OF_SAMPLE_DOCX[6]
-    # model_contract_v1 = MODEL_CONTRACT_JSON_V1_SAMPLES[0]
-    # revision = DocxParser().get_revision_summary(model_contract_v1, sample)
-    # if revision: 
-    #     revision_analyzer = DocxAnalyzer() 
-    #     results = await revision_analyzer.aget_revision(revision, base_delay=1)
-    return {"message": ""}
+    response_sample = SummaryResponse()
+    return response_sample.model_dump()
 
 
 @app.get("/api/docx/{file_id}/revision_analysis")

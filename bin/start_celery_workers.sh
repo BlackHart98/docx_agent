@@ -1,0 +1,1 @@
+celery -A bg_tasks.celery_app worker

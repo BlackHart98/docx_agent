@@ -12,21 +12,21 @@ import xmlformatter
 from utils import (
     get_paragragh_difflist, 
     extract_text_content, 
-    AppConfig, 
+    Config, 
     EditCategory, 
     get_origin_paragraph,
     match_paragraphs, 
     RevisionSummary,
     ParagraphMatch)
-
+from config import Config
 
 import hashlib
-
+import io
 class DocxParser:
     def _get_all_comments(
         self,
         docx_zip: zipfile.ZipFile, 
-        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
+        oo_xmlns: t.Dict[str, str]=Config.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         if 'word/comments.xml' not in [item.filename for item in docx_zip.filelist]: 
             return []
@@ -57,7 +57,7 @@ class DocxParser:
         result = []
         for item in paragraph.iter():
             if item.tag.endswith('commentReference'):
-                comment_id = item.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}id')
+                comment_id = item.get(f'{{{Config.DOCX_SCHEMA["w"]}}}id')
                 comment = comments_dict[comment_id]
                 result.append(comment)
         return result
@@ -68,10 +68,10 @@ class DocxParser:
         self, 
         document_xml: t.Any, 
         para_idx: int, 
-        oo_xmlns: t.Dict[str, str]=AppConfig.DOCX_SCHEMA
+        oo_xmlns: t.Dict[str, str]=Config.DOCX_SCHEMA
     ) -> t.List[t.Dict[str, t.Any]]:
         tree = etree.fromstring(document_xml)
-        paragraphs = tree.findall('.//w:body//w:p', namespaces=AppConfig.DOCX_SCHEMA)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=Config.DOCX_SCHEMA)
         paragraph = paragraphs[para_idx]
         text_accum = ""
         comment_positions = []
@@ -107,7 +107,7 @@ class DocxParser:
         para_idx: int, 
     ) -> t.List[t.Dict[str, t.Any]]:
         tree = etree.fromstring(document_xml)
-        paragraphs = tree.findall('.//w:body//w:p', namespaces=AppConfig.DOCX_SCHEMA)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=Config.DOCX_SCHEMA)
         paragraph = paragraphs[para_idx]
         para_text = ""
         changes = []
@@ -119,8 +119,8 @@ class DocxParser:
                 cursor += len(text)
             elif child.tag.endswith("ins"):
                 change_type = EditCategory.INSERTION
-                author = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}author')
-                date = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}date')
+                author = child.get(f'{{{Config.DOCX_SCHEMA["w"]}}}author')
+                date = child.get(f'{{{Config.DOCX_SCHEMA["w"]}}}date')
                 change_text = extract_text_content(child, "t")
 
                 start = cursor
@@ -139,8 +139,8 @@ class DocxParser:
                 cursor += len(change_text)
             elif child.tag.endswith("del"):
                 change_type = EditCategory.DELETION
-                author = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}author')
-                date = child.get(f'{{{AppConfig.DOCX_SCHEMA["w"]}}}date')
+                author = child.get(f'{{{Config.DOCX_SCHEMA["w"]}}}author')
+                date = child.get(f'{{{Config.DOCX_SCHEMA["w"]}}}date')
                 change_text = extract_text_content(child, "delText")
 
                 start = cursor
@@ -170,12 +170,12 @@ class DocxParser:
     ) -> t.List[t.Dict[str, t.Any]]:
         document_xml = docx_zip.read('word/document.xml')
         tree = etree.fromstring(document_xml)
-        paragraphs = tree.findall('.//w:body//w:p', namespaces=AppConfig.DOCX_SCHEMA)
+        paragraphs = tree.findall('.//w:body//w:p', namespaces=Config.DOCX_SCHEMA)
         comments_dict = {item["comment_id"] : item for item in comments}
         revisions_to_paragraph = []
         for idx, paragraph in enumerate(paragraphs):
             track_changes: t.List[t.Dict[str, t.Any]] = self._get_track_changes(document_xml, idx)
-            paragraph_text = extract_text_content(paragraph, "t", AppConfig.DOCX_SCHEMA)
+            paragraph_text = extract_text_content(paragraph, "t", Config.DOCX_SCHEMA)
             if comments_dict:
                 comments = self._get_paragraph_comments(paragraph, comments_dict)
                 comment_pos = self._get_comment_positions(document_xml, idx)
@@ -202,6 +202,12 @@ class DocxParser:
         docx_zip = zipfile.ZipFile(sample)
         comments = self._get_all_comments(docx_zip)
         return self._get_paragraphs_with_comments(docx_zip, comments)
+    
+    
+    def get_paragraphs_with_comments_bytes(self, sample: bytes) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
+        docx_zip = zipfile.ZipFile(sample)
+        comments = self._get_all_comments(docx_zip)
+        return self._get_paragraphs_with_comments(docx_zip, comments)
 
     
     def get_clause_revision_dict(self, contract_meta: t.List[t.Dict[str, t.Any]]) -> t.List[t.Dict[str, t.Any]]:
@@ -211,20 +217,20 @@ class DocxParser:
                 _, origin_paragraph = get_origin_paragraph(item)
                 result += [{
                     "paragraph" : item["paragraph"],
-                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                    "uuid" : f"{Config.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]
             elif len(item["track_changes"]) != 0:
                 _, origin_paragraph = get_origin_paragraph(item)
                 result += [{
                     "paragraph" : item["paragraph"],
-                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                    "uuid" : f"{Config.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]
             elif item["paragraph"] != "":
                 result += [{
                     "paragraph" : item["paragraph"],
-                    "uuid" : f"{AppConfig.CLAUSE_HASH_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
+                    "uuid" : f"{Config.CLAUSE_HASH_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
                     "paragraph_index" : item["paragraph_index"],
                 }]
         return result
@@ -235,6 +241,19 @@ class DocxParser:
             model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
             f.close()
         contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = self.get_paragraphs_with_comments(docx_file_path)
+        if contract_meta:
+            if len(contract_meta) != 0:
+                result = self.get_clause_revision_dict(contract_meta)
+                match_list: t.List[ParagraphMatch] = match_paragraphs(model_contract_dict_v1, result)
+                return RevisionSummary(contract_meta=contract_meta, revision=result, match_list=match_list, model_contract_dict_v1=model_contract_dict_v1)
+        return None
+    
+    def get_revision_summary_bytes(self, docx_file_bytes: bytes, model_contract_v1_path: str="examples/contracts/model_contract_json_v1.json") -> t.Optional[RevisionSummary]:
+        print(f"fishy: \n{docx_file_bytes}")
+        with open(model_contract_v1_path, "r") as f:
+            model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
+            f.close()
+        contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = self.get_paragraphs_with_comments_bytes(docx_file_bytes)
         if contract_meta:
             if len(contract_meta) != 0:
                 result = self.get_clause_revision_dict(contract_meta)

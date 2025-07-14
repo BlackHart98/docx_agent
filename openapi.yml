@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackedChangesResponse'
+                $ref: '#/components/schemas/SummaryResponse'
 
   /api/docx/{file_id}/revision_analysis:
     get:
@@ -107,7 +107,7 @@ components:
           example: "File uploaded and processed successfully"
           description: Human-readable upload result message.
 
-    TrackedChangesResponse:
+    SummaryResponse:
       type: object
       properties:
         file_id:

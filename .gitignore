@@ -7,3 +7,4 @@ env/
 .gitattributes
 my_revision.json
 .vscode
+scratch_pad.py

@@ -1,7 +1,7 @@
 import os
 import typing as t
 import logging
-from utils import AIModel, HTTPErrorMessage, AppConfig, get_asym_sleep_time, clean_up_json
+from utils import AIModel, HTTPErrorMessage, Config, get_asym_sleep_time, clean_up_json
 from dotenv import load_dotenv, find_dotenv
 from jinja2 import Environment, FileSystemLoader, Template
 
@@ -11,7 +11,7 @@ from langchain_core.prompts import PromptTemplate, ChatPromptTemplate
 from langchain_community.chat_models import ChatOpenAI
 from langchain_mistralai import ChatMistralAI
 from pydantic import BaseModel
-
+from config import Config
 from httpx import HTTPStatusError
 import asyncio
 
@@ -53,9 +53,9 @@ class DocxAIAgent:
         self, 
         paragraph_index: int, 
         body: str,
-        retry_count:int=AppConfig.DEFAULT_RETRY_COUNT,
-        base_delay:float=AppConfig.DEFAULT_DELAY_SECONDS,
-        lag_max:float=AppConfig.DEFAULT_LAG_MAX_SECONDS,
+        retry_count:int=Config.DEFAULT_RETRY_COUNT,
+        base_delay:float=Config.DEFAULT_DELAY_SECONDS,
+        lag_max:float=Config.DEFAULT_LAG_MAX_SECONDS,
     ) -> t.Tuple[int, t.Optional[t.Dict[str, t.Any]], str]:
         prompt_template = ChatPromptTemplate.from_messages([
             self._system_role,
@@ -84,9 +84,9 @@ class DocxAIAgent:
         self, 
         paragraph_index: int, 
         body: str,
-        retry_count:int=AppConfig.DEFAULT_RETRY_COUNT,
-        base_delay:float=AppConfig.DEFAULT_DELAY_SECONDS,
-        lag_max:float=AppConfig.DEFAULT_LAG_MAX_SECONDS,
+        retry_count:int=Config.DEFAULT_RETRY_COUNT,
+        base_delay:float=Config.DEFAULT_DELAY_SECONDS,
+        lag_max:float=Config.DEFAULT_LAG_MAX_SECONDS,
     ) -> t.Tuple[int, t.Optional[t.Dict[str, t.Any]], str]:
         prompt_template = ChatPromptTemplate.from_messages([
             self._system_role,

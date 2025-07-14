@@ -6,7 +6,7 @@ import asyncio
 from lib.doc_parser import DocxParser
 from utils import (
     get_prompt_body,
-    AppConfig, 
+    Config, 
     ParagraphMatch,
     RevisionSummary,)
 from lib.ai_agent import DocxAIAgent
@@ -21,18 +21,18 @@ class DocxAnalyzer:
     
     
     def __init__(self):
-        self._environment = Environment(loader=FileSystemLoader(AppConfig.TEMPLATE_PATH))
-        self._prompt_template = self._environment.get_template(AppConfig.PROMPT_TEMPLATE_FILE)
-        self._role_template = self._environment.get_template(AppConfig.ROLE_TEMPLATE_FILE)
+        self._environment = Environment(loader=FileSystemLoader(Config.TEMPLATE_PATH))
+        self._prompt_template = self._environment.get_template(Config.PROMPT_TEMPLATE_FILE)
+        self._role_template = self._environment.get_template(Config.ROLE_TEMPLATE_FILE)
         self._ai_agent: DocxAIAgent = DocxAIAgent(self._role_template)
 
         
     async def aget_revision(
         self, 
         revision_summary: RevisionSummary,
-        retry_count:int=AppConfig.DEFAULT_RETRY_COUNT,
-        base_delay:float=AppConfig.DEFAULT_DELAY_SECONDS,
-        lag_max:float=AppConfig.DEFAULT_LAG_MAX_SECONDS
+        retry_count:int=Config.DEFAULT_RETRY_COUNT,
+        base_delay:float=Config.DEFAULT_DELAY_SECONDS,
+        lag_max:float=Config.DEFAULT_LAG_MAX_SECONDS
     ) -> t.List[t.Dict[str, t.Any]]:
         contract_meta: t.List[t.Dict[str, t.Any]] = revision_summary.contract_meta
         result_analysis_list = []

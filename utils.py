@@ -171,3 +171,8 @@ def clean_up_json(dirty_json_response: str, revision_schema: t.Set[str]) -> t.Op
 def get_chack_sum_for_docx(docx_file: str):
     
     pass
+
+
+
+def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
+    return {}

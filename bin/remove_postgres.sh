@@ -8,7 +8,7 @@ if docker ps -a --format '{{.Names}}' | grep -wq postgres-db; then
     fi
     echo "Removing postgres-db container…"
     docker rm postgres-db > /dev/null
-    echo "Removed postgres-db container"
+    echo "Removed postgres-db container."
 else
     echo "No postgres-db container found."
 fi

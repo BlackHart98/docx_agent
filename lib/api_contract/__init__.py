@@ -55,3 +55,6 @@ class Request(BaseModel):
 class SummaryRequest(Request):
     file_id: str
     
+    
+class AnalysisRequest(Request):
+    file_id: str

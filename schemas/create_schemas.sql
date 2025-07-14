@@ -1,5 +1,7 @@
 drop schema if exists dox_agent; 
 
+create schema dox_agent;
+
 create table dox_agent.contract_versions(
     contract_version_id VARCHAR,
     file_name VARCHAR,

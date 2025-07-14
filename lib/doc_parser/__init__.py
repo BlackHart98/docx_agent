@@ -248,8 +248,8 @@ class DocxParser:
                 return RevisionSummary(contract_meta=contract_meta, revision=result, match_list=match_list, model_contract_dict_v1=model_contract_dict_v1)
         return None
     
+    
     def get_revision_summary_bytes(self, docx_file_bytes: bytes, model_contract_v1_path: str="examples/contracts/model_contract_json_v1.json") -> t.Optional[RevisionSummary]:
-        print(f"fishy: \n{docx_file_bytes}")
         with open(model_contract_v1_path, "r") as f:
             model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
             f.close()

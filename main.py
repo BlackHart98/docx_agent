@@ -40,7 +40,7 @@ async def upload_docx(file : UploadFile = File(...)) -> t.Optional[t.Dict[str, t
         file_content = await file.read()
         file_hash = hashlib.md5(file_content).hexdigest()
         print(file_hash)
-        file_id = f"docx_{file.filename}:{file_hash}:{len(file_content)}"
+        file_id = f"docx_{file_hash}:{len(file_content)}"
         bg = chain(
             generate_summary.s(file_id=file_id, file_name=file.filename, file_hash=file_hash, file_content=file_content),
             analyze_summary.s()).apply_async()

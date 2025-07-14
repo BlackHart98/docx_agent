@@ -10,20 +10,6 @@ from lib import DocxAnalyzer
 from lib import DocxParser
 import io
 
-# for quick testing
-LIST_OF_SAMPLE_DOCX = [
-    "examples/file-sample_1MB.docx",
-    "examples/my_sample_with_comments_2.docx",
-    "examples/my_sample_with_comments.docx",
-    "examples/sample3.docx",
-    "examples/sample-files.com-basic-text.docx",
-    "examples/sample_contract.docx",
-    "examples/sample_contract_2.docx"
-]
-MODEL_CONTRACT_JSON_V1_SAMPLES = [
-    "examples/contracts/model_contract_json_v1.json"
-]
-
 celery_app = Celery()
 
 celery_app.config_from_object("config")

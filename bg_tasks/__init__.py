@@ -20,7 +20,7 @@ celery_app.config_from_object("config")
 def generate_summary(
     file_id: str, 
     file_name: str, 
-    file_hash: str, 
+    # file_hash: str, 
     file_content: bytes
 ) -> t.Tuple[str, str, str]: 
     try:
@@ -29,7 +29,7 @@ def generate_summary(
         summary_json = result.model_dump_json()
         print("attempting to...... commit to summary tables")
         _commit_summary_to_db()
-        return file_id, file_name, file_hash
+        return file_id, file_name
     except Exception as e:
         """rollback potential changes"""
         raise
@@ -37,7 +37,7 @@ def generate_summary(
 @celery_app.task
 def analyze_summary(input: t.Tuple[str, str, str]) -> None: 
     try:
-        file_id, file_name, file_hash = input
+        file_id, file_name = input
         print(f"attempting to++++ {file_id}")
         _get_summary_by_id_db()
         return None

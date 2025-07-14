@@ -47,17 +47,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/UploadResponse'
 
-  /api/docx/{file_id}:
+  /api/docx:
     get:
       summary: Retrieve tracked changes and comments
       description: Return the raw tracked changes and comments extracted from the specified file.
-      parameters:
-        - name: file_id
-          in: path
-          required: true
-          description: The ID of the uploaded file to retrieve tracked changes for.
-          schema:
-            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/SummaryRequest'
       responses:
         '200':
           description: Raw tracked changes and comments
@@ -66,7 +65,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SummaryResponse'
 
-  /api/docx/{file_id}/revision_analysis:
+  /api/docx/revision_analysis:
     get:
       summary: Analyze a DOCX contract for revision intent and risk
       description: Return an AI-powered analysis of tracked changes and comments, highlighting intent, risks, and recommended actions.
@@ -102,10 +101,19 @@ components:
         file_id:
           type: string
           description: Unique identifier of the uploaded file.
+        file_name:
+          type: string
+          description: File name of the uploaded file.
         message:
           type: string
           example: "File uploaded and processed successfully"
-          description: Human-readable upload result message.
+
+    SummaryRequest:
+      type: object
+      properties:
+        file_id:
+          type: string
+          description: Unique identifier of uploaded file in the database.
 
     SummaryResponse:
       type: object
@@ -119,7 +127,7 @@ components:
           items:
             $ref: '#/components/schemas/TrackedChange'
 
-    RevisionAnalysisResponse:
+    AnalysisResponse:
       type: object
       properties:
         file_id:

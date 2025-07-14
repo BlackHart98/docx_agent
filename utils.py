@@ -10,6 +10,7 @@ from jinja2 import Environment, FileSystemLoader, Template
 from config import Config
 from pydantic import BaseModel
 
+import hashlib
 
 class EditCategory:
     INSERTION = "insertion"
@@ -168,11 +169,14 @@ def clean_up_json(dirty_json_response: str, revision_schema: t.Set[str]) -> t.Op
 
 
 
-def get_chack_sum_for_docx(docx_file: str):
-    
-    pass
-
+def _generate_file_id(file_content: str):
+    file_hash: str = hashlib.md5(file_content).hexdigest()
+    return f"docx_{file_hash}:{len(file_content)}"
 
 
 def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
-    return {}
+    return None
+
+
+def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
+    return None

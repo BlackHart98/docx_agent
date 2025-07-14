@@ -33,15 +33,10 @@ class AnalysisResponse(Response):
     paragraph_analyses: t.List[ParagraphAnalysis]
 
 
-class AnalysisResponse(Response):
-    file_id: str
-    paragraph_analyses: str
-
 
 class UploadDocxResponse(Response):
     file_id: str #file_id will be the concatenation of docx_<file_name>:<file_hash>
     file_name: str 
-    file_hash: str
     message: str
     
     

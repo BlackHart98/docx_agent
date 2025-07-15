@@ -55,12 +55,18 @@ async def upload_docx(file : UploadFile = File(...)) -> t.Optional[t.Dict[str, t
 @app.get("/api/docx")
 async def get_revision_summary(summary: SummaryRequest) -> t.Optional[t.Dict[str, t.Any]]:
     """Get file summary using the file id"""
-    summary_result = RevisionSummary(**get_summary(summary.file_id))
-    if summary_result:
-        response_sample = SummaryResponse(file_id=summary.file_id, summary=summary_result.contract_meta)
-        return response_sample.model_dump()
-    else:
-        return {"message" : "Could not find any file with the file_id!", "file_id" : summary.file_id}
+    try:
+        summary_result = RevisionSummary(**get_summary(summary.file_id))
+        if summary_result:
+            response_sample = SummaryResponse(
+                file_id=summary.file_id
+                , summary=summary_result.contract_meta)
+            return response_sample.model_dump()
+        else:
+            return {"message" : "Could not find any file with the file_id!", "file_id" : summary.file_id}
+    except Exception as e:
+        logging.error(f"Error during file upload: {e}")
+        raise HTTPException(status_code=500, detail="Summary request failed")
         
         
 

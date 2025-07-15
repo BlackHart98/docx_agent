@@ -5,7 +5,7 @@
 ## Overview
 Docx_agent parses legal contracts `.docx` file gets track changes and comments, then returns a revision analysis
 
-## Prerquisites
+## Prerequisites
 1. Install [docker](https://docs.docker.com/get-started/get-docker/)
 2. Install Python3 (python 3.11+ preferably)
 

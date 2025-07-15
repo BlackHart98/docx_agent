@@ -33,7 +33,7 @@ fi
 
 
 until docker exec -i $POSTGRES_CONTAINER pg_isready -U postgres; do
-  echo "Waiting for Postgre database to be ready..."
+  echo "Waiting for Postgres database to be ready..."
   sleep 10
 done
 

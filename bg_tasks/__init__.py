@@ -10,6 +10,8 @@ from lib import DocxAnalyzer
 from lib import DocxParser
 import io
 
+from utils import commit_summary_to_db
+
 celery_app = Celery()
 
 celery_app.config_from_object("config")
@@ -28,7 +30,7 @@ def generate_summary(
         result = DocxParser().get_revision_summary_bytes(zip_file_content)
         summary_json = result.model_dump_json()
         print("attempting to...... commit to summary tables")
-        _commit_summary_to_db()
+        commit_summary_to_db(file_id, file_name, summary_json)
         return file_id, file_name
     except Exception as e:
         """rollback potential changes"""

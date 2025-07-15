@@ -11,13 +11,14 @@ from lib import (
     UploadDocxResponse,
     IndexResponse,
     SummaryRequest,
-    AnalysisRequest,)
+    AnalysisRequest,
+    ParagraphAnalysis,)
 from fastapi import FastAPI, Depends, UploadFile, File, HTTPException
 import redis.asyncio as aioredis
 from bg_tasks import generate_summary, analyze_summary
 from config import Config
 import hashlib
-from utils import get_analysis, _generate_file_id, get_summary, RevisionSummary
+from utils import get_analysis, _generate_file_id, get_summary, RevisionSummary, flattened_analysis
 
 from celery import chain
 
@@ -59,8 +60,8 @@ async def get_revision_summary(summary: SummaryRequest) -> t.Optional[t.Dict[str
         summary_result = RevisionSummary(**get_summary(summary.file_id))
         if summary_result:
             response_sample = SummaryResponse(
-                file_id=summary.file_id
-                , summary=summary_result.contract_meta)
+                file_id=summary.file_id, 
+                summary=summary_result.contract_meta)
             return response_sample.model_dump()
         else:
             return {"message" : "Could not find any file with the file_id!", "file_id" : summary.file_id}
@@ -73,6 +74,18 @@ async def get_revision_summary(summary: SummaryRequest) -> t.Optional[t.Dict[str
 
 @app.get("/api/docx/revision_analysis")
 async def get_revision_analysis(analysis_request: AnalysisRequest) -> t.Optional[t.Dict[str, t.Any]]:
-    analysis_result = get_analysis(analysis_request.file_id)
-    response_sample = AnalysisResponse()
-    return response_sample.model_dump()
+    """Get file analysis using the file id"""
+    try:
+        analysis_result = get_analysis(analysis_request.file_id)
+        flattened_analysis_result = flattened_analysis(analysis_result)
+        paragraph_analysis_list = [ParagraphAnalysis(**item) for item in flattened_analysis_result]
+        if analysis_result:
+            response_sample = AnalysisResponse(
+                file_id=analysis_request.file_id, 
+                paragraph_analyses=paragraph_analysis_list)
+            return response_sample.model_dump()
+        else:
+            return {"message" : "Could not find any file with the file_id!", "file_id" : analysis_request.file_id}
+    except Exception as e:
+        logging.error(f"Error during file upload: {e}")
+        raise HTTPException(status_code=500, detail="Analysis request failed")

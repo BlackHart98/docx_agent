@@ -20,13 +20,13 @@ POSTGRES_DB=
 ```
 > [!Note]
 > I am currently using Mistral API
+2. Start the services
+```sh
+sh bin/go_live.sh
+```
+3. Start the services
+```sh
+sh bin/shutdown.sh
+```
 
-2. Create a virtual environment 
-```sh
-python -m venv env
-```
-then activate the virtual environment, by running this 
-> for unix-based systems (linux and macOS)
-```sh
-source activate
-```
+

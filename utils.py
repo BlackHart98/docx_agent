@@ -243,7 +243,7 @@ def commit_analysis_to_db(file_id: str, file_name: str, analysis_json: str):
         pass
 
 
-def get_summary(file_id: str) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
+def get_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     result = fetch_summary_by_file_id(file_id)
     if result:
         _, _, summary_json, _, _, _ = result[0]
@@ -253,5 +253,25 @@ def get_summary(file_id: str) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
         return None
 
 
-def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
-    return None
+def get_analysis(file_id: str) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
+    result = fetch_analysis_by_file_id(file_id)
+    if result:
+        _, _, analysis_json, _= result[0]
+        analysis_json = json.loads(analysis_json)
+        return analysis_json
+    else:
+        return None
+
+
+def flattened_analysis(analysis_result: t.Optional[t.List[t.Dict[str, t.Any]]]) -> t.List[t.Dict[str, t.Any]]:
+    result = []
+    for item in analysis_result:
+        new_item = {}
+        for key in item:
+            if key != "revision_analysis":
+                new_item[key] = item[key]
+            else:
+                for sub_key in item["revision_analysis"]:
+                    new_item[sub_key] = item["revision_analysis"][sub_key]
+        result += [new_item]
+    return result

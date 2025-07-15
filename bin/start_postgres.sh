@@ -5,7 +5,7 @@ set -e
 
 POSTGRES_CONTAINER=postgres-db
 
-if ! docker image inspect postgres >/dev/null 2>&1; then
+if ! docker image inspect postgres:17 >/dev/null 2>&1; then
     echo "Pulling postgres 17 image..."
     docker pull postgres:17;
 else

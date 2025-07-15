@@ -19,5 +19,5 @@ create table "dox_agent.revision_analyses"(
     analysis_id SERIAL,
     file_id TEXT, -- foreign key
     analysis_json TEXT,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP
 );

@@ -6,11 +6,10 @@ import sys
 import typing as t
 import logging
 import asyncio
-from lib import DocxAnalyzer
-from lib import DocxParser
+from lib import DocxAnalyzer, DocxParser, RevisionSummary
 import io
 
-from utils import commit_summary_to_db
+from utils import commit_summary_to_db, commit_analysis_to_db
 
 celery_app = Celery()
 
@@ -31,7 +30,7 @@ def generate_summary(
         summary_json = result.model_dump_json()
         print("attempting to...... commit to summary tables")
         commit_summary_to_db(file_id, file_name, summary_json)
-        return file_id, file_name
+        return file_id, file_name, summary_json
     except Exception as e:
         """rollback potential changes"""
         raise
@@ -39,10 +38,13 @@ def generate_summary(
 @celery_app.task
 def analyze_summary(input: t.Tuple[str, str, str]) -> None: 
     try:
-        file_id, file_name = input
-        print(f"attempting to++++ {file_id}")
-        _get_summary_by_id_db()
-        return None
+        file_id, file_name, summary_json = input
+        summary_ = RevisionSummary(**json.loads(summary_json))
+        # print(summary_)
+        results = asyncio.run(DocxAnalyzer().aget_revision(summary_, base_delay=1))
+        result_str: str =  json.dumps(results)
+        print("attempting to...... commit to revision tables")
+        commit_analysis_to_db(file_id, file_name, result_str)
     except Exception as e:
         """rollback potential changes"""
         raise

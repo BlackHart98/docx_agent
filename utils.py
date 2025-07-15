@@ -178,31 +178,69 @@ def _generate_file_id(file_content: str):
 from sqlalchemy import create_engine, text
 
 
-def commit_summary_to_db(file_id: str, file_name: str, summary_json: str):
-    with open(Config.SQL_FILES + "insert_into_contract_versions.sql",  "r") as f:
-        sql = text(f.read())
-    engine = create_engine(DATABASE_URL, echo=True)
-    with engine.connect() as conn:
-        conn.execute(sql, {
-            "file_id": file_id,
-            "file_name": file_name,
-            "summary_json" : summary_json
-        })
-        conn.commit()
+def fetch_summary_by_file_id(file_id) -> t.List[t.Any]:
+    result = []
+    try:
+        with open(Config.SQL_FILES + "queries/get_summary_by_file_id.sql",  "r") as f:
+            sql = text(f.read())
+        engine = create_engine(DATABASE_URL, echo=True)
+        with engine.connect() as conn:
+            result_ = conn.execute(sql, {
+                "file_id": file_id,
+            })
+            result = result_.fetchall()
+        return result
+    except Exception as e:
+        logging.error(f"Failed to get the revision due to {e}")
+        return result
+
+
+def fetch_analysis_by_file_id(file_id) -> t.List[t.Any]:
+    result = []
+    try:
+        with open(Config.SQL_FILES + "queries/get_analysis_by_file_id.sql",  "r") as f:
+            sql = text(f.read())
+        engine = create_engine(DATABASE_URL, echo=True)
+        with engine.connect() as conn:
+            result_ = conn.execute(sql, {
+                "file_id": file_id,
+            })
+            result = result_.fetchall()
+        return result
+    except Exception as e:
+        logging.error(f"Failed to get the revision due to {e}")
+        return result
 
 
 def commit_summary_to_db(file_id: str, file_name: str, summary_json: str):
-    # with open(Config.SQL_FILES + "insert_into_contract_versions.sql",  "r") as f:
-    #     sql = text(f.read())
-    # engine = create_engine(DATABASE_URL, echo=True)
-    # with engine.connect() as conn:
-    #     conn.execute(sql, {
-    #         "file_id": file_id,
-    #         "file_name": file_name,
-    #         "summary_json" : summary_json
-    #     })
-    #     conn.commit()
-    pass
+    if len(fetch_summary_by_file_id(file_id)) <= 0:
+        with open(Config.SQL_FILES + "insert_into_contract_versions.sql",  "r") as f:
+            sql = text(f.read())
+        engine = create_engine(DATABASE_URL, echo=True)
+        with engine.connect() as conn:
+            conn.execute(sql, {
+                "file_id": file_id,
+                "file_name": file_name,
+                "summary_json" : summary_json
+            })
+            conn.commit()
+    else:
+        pass
+
+
+def commit_analysis_to_db(file_id: str, file_name: str, analysis_json: str):
+    if len(fetch_analysis_by_file_id(file_id)) <= 0:
+        with open(Config.SQL_FILES + "insert_into_analysis_table.sql",  "r") as f:
+            sql = text(f.read())
+        engine = create_engine(DATABASE_URL, echo=True)
+        with engine.connect() as conn:
+            conn.execute(sql, {
+                "file_id": file_id,
+                "analysis_json" : analysis_json
+            })
+            conn.commit()
+    else:
+        pass
 
 
 def get_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
@@ -211,6 +249,3 @@ def get_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
 
 def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     return None
-
-
-# commit_summary_to_db()

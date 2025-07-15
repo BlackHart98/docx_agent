@@ -39,7 +39,7 @@ async def upload_docx(file : UploadFile = File(...)) -> t.Optional[t.Dict[str, t
     try:
         file_content = await file.read()
         file_id = _generate_file_id(file_content)
-        bg = chain(
+        _ = chain(
             generate_summary.s(file_id=file_id, file_name=file.filename, file_content=file_content),
             analyze_summary.s()).apply_async()
         response_sample = UploadDocxResponse(

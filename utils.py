@@ -7,7 +7,7 @@ from operator import itemgetter
 from dataclasses import dataclass
 from langchain_mistralai import ChatMistralAI
 from jinja2 import Environment, FileSystemLoader, Template
-from config import Config
+from config import Config, DATABASE_URL
 from pydantic import BaseModel
 
 import hashlib
@@ -174,9 +174,39 @@ def _generate_file_id(file_content: str):
     return f"docx_{file_hash}:{len(file_content)}"
 
 
-def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
+
+from sqlalchemy import create_engine, text
+from dotenv import load_dotenv, find_dotenv
+
+
+# DOT_ENV_PATH = find_dotenv()
+# load_dotenv(DOT_ENV_PATH)
+
+def foo():
+    # print(DATABASE_URL)
+    
+    # DOT_ENV_PATH = find_dotenv()
+    # print(DOT_ENV_PATH)
+    # load_dotenv(DOT_ENV_PATH)
+    print(DATABASE_URL)
+    # with open(Config.SQL_FILES + "insert_into_contract_versions.sql",  "r") as f:
+    #     sql = f.read()
+    # engine = create_engine(DATABASE_URL, echo=True)
+    # with engine.connect() as conn:
+    #     conn.execute(sql, {
+    #         "file_id": "abc123",
+    #         "file_name": "contract_v1.docx"
+    #     })
+    # conn.commit()
+    # print(f"fooooooo {DATABASE_URL} {sql}")
+
+
+def get_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     return None
 
 
 def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     return None
+
+
+foo()

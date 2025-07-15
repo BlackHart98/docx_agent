@@ -191,6 +191,20 @@ def commit_summary_to_db(file_id: str, file_name: str, summary_json: str):
         conn.commit()
 
 
+def commit_summary_to_db(file_id: str, file_name: str, summary_json: str):
+    # with open(Config.SQL_FILES + "insert_into_contract_versions.sql",  "r") as f:
+    #     sql = text(f.read())
+    # engine = create_engine(DATABASE_URL, echo=True)
+    # with engine.connect() as conn:
+    #     conn.execute(sql, {
+    #         "file_id": file_id,
+    #         "file_name": file_name,
+    #         "summary_json" : summary_json
+    #     })
+    #     conn.commit()
+    pass
+
+
 def get_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     return None
 

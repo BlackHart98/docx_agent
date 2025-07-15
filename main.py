@@ -17,7 +17,7 @@ import redis.asyncio as aioredis
 from bg_tasks import generate_summary, analyze_summary
 from config import Config
 import hashlib
-from utils import get_analysis, _generate_file_id, get_summary
+from utils import get_analysis, _generate_file_id, get_summary, RevisionSummary
 
 from celery import chain
 
@@ -35,7 +35,7 @@ async def root():
 
 @app.put("/api/upload_docx")
 async def upload_docx(file : UploadFile = File(...)) -> t.Optional[t.Dict[str, t.Any]]:
-    """Upload a file and trigger a Celery task to process it. MAX size 20MB"""
+    """Upload a file and trigger a background task to process it. MAX size 20MB"""
     try:
         file_content = await file.read()
         file_id = _generate_file_id(file_content)
@@ -54,9 +54,15 @@ async def upload_docx(file : UploadFile = File(...)) -> t.Optional[t.Dict[str, t
 
 @app.get("/api/docx")
 async def get_revision_summary(summary: SummaryRequest) -> t.Optional[t.Dict[str, t.Any]]:
-    summary_result = get_summary(summary.file_id)
-    response_sample = SummaryResponse()
-    return response_sample.model_dump()
+    """Get file summary using the file id"""
+    summary_result = RevisionSummary(**get_summary(summary.file_id))
+    if summary_result:
+        response_sample = SummaryResponse(file_id=summary.file_id, summary=summary_result.contract_meta)
+        return response_sample.model_dump()
+    else:
+        return {"message" : "Could not find any file with the file_id!", "file_id" : summary.file_id}
+        
+        
 
 
 @app.get("/api/docx/revision_analysis")

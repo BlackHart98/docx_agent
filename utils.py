@@ -243,8 +243,14 @@ def commit_analysis_to_db(file_id: str, file_name: str, analysis_json: str):
         pass
 
 
-def get_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
-    return None
+def get_summary(file_id: str) -> t.Optional[t.List[t.Dict[str, t.Any]]]:
+    result = fetch_summary_by_file_id(file_id)
+    if result:
+        _, _, summary_json, _, _, _ = result[0]
+        summary = json.loads(summary_json)
+        return summary
+    else:
+        return None
 
 
 def get_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:

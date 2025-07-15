@@ -16,7 +16,7 @@ class IndexResponse(Response):
 
 class SummaryResponse(Response):
     file_id: str
-    tracked_changes: t.List[t.Dict[str, t.Any]]
+    summary: t.List[t.Dict[str, t.Any]]
 
 
 class ParagraphAnalysis(Response):

@@ -13,7 +13,6 @@ Docx_agent parses legal contracts `.docx` file gets track changes and comments, 
 1. Create a `.env` file to keep your credentials, which are
 ```env
 MISTRAL_AI_KEY=
-OPEN_AI_KEY=
 POSTGRES_USERNANME=
 POSTGRES_PASSWORD=
 POSTGRES_DB=

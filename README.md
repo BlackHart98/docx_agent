@@ -13,9 +13,11 @@ Docx_agent parses legal contracts `.docx` file gets track changes and comments, 
 1. Create a `.env` file to keep your credentials, which are
 ```env
 MISTRAL_AI_KEY=
-POSTGRES_USERNANME=
-POSTGRES_PASSWORD=
-POSTGRES_DB=
+POSTGRES_USERNAME=postgres
+POSTGRES_PASSWORD=password
+POSTGRES_DB=postgres
+POSTGRES_HOST=localhost
+POSTGRES_PORT=15432
 ```
 > [!Note]
 > I am currently using Mistral API

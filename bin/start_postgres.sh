@@ -26,7 +26,7 @@ else
         -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
         -e POSTGRES_USERNAME=$POSTGRES_USERNAME \
         -e POSTGRES_DB=$POSTGRES_DB \
-        -p 15432:5432 \
+        -p $POSTGRES_PORT:5432 \
         -v postgres-data:/var/lib/postgresql/data \
         -d postgres
 fi

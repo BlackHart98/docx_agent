@@ -53,18 +53,18 @@ async def upload_docx(file : UploadFile = File(...)) -> t.Optional[t.Dict[str, t
         raise HTTPException(status_code=500, detail="File upload failed")
 
 
-@app.get("/api/docx")
-async def get_revision_summary(summary: SummaryRequest) -> t.Optional[t.Dict[str, t.Any]]:
+@app.get("/api/docx/{file_id}")
+async def get_revision_summary(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     """Get file summary using the file id"""
     try:
-        summary_result = RevisionSummary(**get_summary(summary.file_id))
+        summary_result = RevisionSummary(**get_summary(file_id))
         if summary_result:
             response_sample = SummaryResponse(
-                file_id=summary.file_id, 
+                file_id=file_id, 
                 summary=summary_result.contract_meta)
             return response_sample.model_dump()
         else:
-            return {"message" : "Could not find any file with the file_id!", "file_id" : summary.file_id}
+            return {"message" : "Could not find any file with the file_id!", "file_id" : file_id}
     except Exception as e:
         logging.error(f"Error during file upload: {e}")
         raise HTTPException(status_code=500, detail="Summary request failed")
@@ -72,20 +72,20 @@ async def get_revision_summary(summary: SummaryRequest) -> t.Optional[t.Dict[str
         
 
 
-@app.get("/api/docx/revision_analysis")
-async def get_revision_analysis(analysis_request: AnalysisRequest) -> t.Optional[t.Dict[str, t.Any]]:
+@app.get("/api/docx/revision_analysis/{file_id}")
+async def get_revision_analysis(file_id: str) -> t.Optional[t.Dict[str, t.Any]]:
     """Get file analysis using the file id"""
     try:
-        analysis_result = get_analysis(analysis_request.file_id)
+        analysis_result = get_analysis(file_id)
         flattened_analysis_result = flattened_analysis(analysis_result)
         paragraph_analysis_list = [ParagraphAnalysis(**item) for item in flattened_analysis_result]
         if analysis_result:
             response_sample = AnalysisResponse(
-                file_id=analysis_request.file_id, 
+                file_id=file_id, 
                 paragraph_analyses=paragraph_analysis_list)
             return response_sample.model_dump()
         else:
-            return {"message" : "Could not find any file with the file_id!", "file_id" : analysis_request.file_id}
+            return {"message" : "Could not find any file with the file_id!", "file_id" : file_id}
     except Exception as e:
         logging.error(f"Error during file upload: {e}")
         raise HTTPException(status_code=500, detail="Analysis request failed")

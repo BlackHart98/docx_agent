@@ -235,12 +235,31 @@ class DocxParser:
                 }]
         return result
     
+
+    def create_metadata_clause_dict(self, contract_meta: t.List[t.Dict[str, t.Any]]) -> t.List[t.Dict[str, t.Any]]:
+        result: t.List[t.Dict[str, t.Any]] = []
+        for item in contract_meta:
+            if item["paragraph"] != "" and len(item["track_changes"]) != 0:
+                _, chunk_list = get_paragragh_difflist(item)
+                origin_paragraph = "".join([x[0] for x in chunk_list if x[1] != EditCategory.INSERTION])
+                if origin_paragraph != "":
+                    result += [{
+                        "paragraph" : origin_paragraph,
+                        "uuid" : f"{Config.CLAUSE_HASH_PREFIX}:{hashlib.md5(origin_paragraph.encode()).hexdigest()}",
+                        "paragraph_index" : item["paragraph_index"],
+                    }]
+            elif item["paragraph"] != "":
+                result += [{
+                    "paragraph" : item["paragraph"],
+                    "uuid" : f"{Config.CLAUSE_HASH_PREFIX}:{hashlib.md5(item['paragraph'].encode()).hexdigest()}",
+                    "paragraph_index" : item["paragraph_index"],
+                }]
+        return result
+    
     
     def get_revision_summary(self, model_contract_v1_path: str, docx_file_path: str) -> t.Optional[RevisionSummary] :
-        with open(model_contract_v1_path, "r") as f:
-            model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
-            f.close()
         contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = self.get_paragraphs_with_comments(docx_file_path)
+        model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = self.create_metadata_clause_dict(contract_meta) 
         if contract_meta:
             if len(contract_meta) != 0:
                 result = self.get_clause_revision_dict(contract_meta)
@@ -250,10 +269,8 @@ class DocxParser:
     
     
     def get_revision_summary_bytes(self, docx_file_bytes: bytes, model_contract_v1_path: str="examples/contracts/model_contract_json_v1.json") -> t.Optional[RevisionSummary]:
-        with open(model_contract_v1_path, "r") as f:
-            model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = json.loads(f.read())
-            f.close()
         contract_meta : t.Optional[t.List[t.Dict[str, t.Any]]] = self.get_paragraphs_with_comments_bytes(docx_file_bytes)
+        model_contract_dict_v1: t.Optional[t.List[t.Dict[str, t.Any]]] = self.create_metadata_clause_dict(contract_meta) 
         if contract_meta:
             if len(contract_meta) != 0:
                 result = self.get_clause_revision_dict(contract_meta)

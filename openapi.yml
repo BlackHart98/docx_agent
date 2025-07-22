@@ -51,12 +51,13 @@ paths:
     get:
       summary: Retrieve tracked changes and comments
       description: Return the raw tracked changes and comments extracted from the specified file.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-                $ref: '#/components/schemas/SummaryRequest'
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          description: The ID of the uploaded file to analyze.
+          schema:
+            type: string
       responses:
         '200':
           description: Raw tracked changes and comments
@@ -164,7 +165,10 @@ components:
           type: string
           description: Suggested response text to communicate to the vendor.
           example: |
-            We appreciate your proposed revision to the contract clause. However, we must reject the changes as they significantly reduce our ability to manage the contract effectively. Specifically, the removal of our right to terminate the contract and the provisions addressing the impact of changes on already delivered services, as well as the process for equitable adjustments, are unacceptable. Please reinstate the original provisions to ensure a balanced and fair agreement.
+            We appreciate your proposed revision to the contract clause. However, 
+            we must reject the changes as they significantly reduce our ability to manage the contract effectively. 
+            Specifically, the removal of our right to terminate the contract and the provisions addressing the impact of changes on already delivered services, 
+            as well as the process for equitable adjustments, are unacceptable. Please reinstate the original provisions to ensure a balanced and fair agreement.
 
     TrackedChange:
       type: object
